@@ -1,0 +1,83 @@
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.grid-span-2 {
+    grid-column: span 2;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.panel-title-inline {
+    font-size: 1.5rem;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.bullet-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.bullet-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.bullet-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-primary);
+    border-radius: 50%;
+}
+
+.bullet-list strong {
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.extracurricular-content h4 {
+    font-size: 1.2rem;
+    color: var(--text-main);
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.language-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+@media (max-width: 968px) {
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-span-2 {
+        grid-column: span 1;
+    }
+}

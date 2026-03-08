@@ -1,0 +1,124 @@
+.resume-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+}
+
+.box-panel {
+    background-color: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    border: 1px solid var(--border-color);
+}
+
+.panel-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.panel-title span {
+    color: var(--accent-primary);
+}
+
+.panel-text {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.download-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+}
+
+/* Timeline */
+.education-timeline {
+    position: relative;
+    padding-left: 1.5rem;
+    border-left: 2px solid rgba(255, 255, 255, 0.1);
+    margin-top: 2rem;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -28px;
+    top: 6px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: var(--accent-primary);
+    border: 3px solid var(--bg-surface);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+.timeline-item h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-main);
+}
+
+.timeline-date {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    color: var(--accent-primary);
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.timeline-item p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* Testimonials */
+.testimonial-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.testimonial-card {
+    position: relative;
+    padding: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--accent-secondary);
+}
+
+.quote-icon {
+    color: rgba(59, 130, 246, 0.2);
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+}
+
+.testimonial-text {
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
+.testimonial-author h4 {
+    font-size: 1rem;
+    color: var(--text-main);
+}
+
+.testimonial-author span {
+    font-size: 0.85rem;
+    color: var(--accent-primary);
+}
+
+@media (max-width: 968px) {
+    .resume-container {
+        grid-template-columns: 1fr;
+    }
+}
