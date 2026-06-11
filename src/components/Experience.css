@@ -1,179 +1,565 @@
-.experience-container {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 3rem;
+/* Cinematic Career Timeline Journey Layout Styles */
+.experience-section-cinematic {
+    position: relative;
+    overflow: hidden;
+    padding: 8rem 0 !important;
+    background: radial-gradient(circle at 10% 10%, rgba(204, 164, 59, 0.05) 0%, transparent 45%),
+                radial-gradient(circle at 90% 90%, rgba(204, 164, 59, 0.03) 0%, transparent 45%),
+                linear-gradient(180deg, #06070a 0%, #0c0e15 50%, #06070a 100%) !important;
+    perspective: 1500px;
+    transform-style: preserve-3d;
 }
 
-.experience-list,
-.workshops-list {
-    background: rgba(14, 17, 24, 0.65);
-    padding: 2.5rem;
-    border-radius: var(--radius-md);
+/* Ambient glows */
+.experience-ambient-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(140px);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.15;
 }
 
-.panel-title {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 2.5rem;
-    font-size: 1.35rem;
-    font-family: var(--font-heading);
-    letter-spacing: 0.05em;
-    color: var(--accent-gold-light);
+.experience-ambient-glow.position-top-left {
+    top: 5%;
+    left: -5%;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, var(--accent-gold) 0%, transparent 70%);
 }
 
-.panel-icon {
+.experience-ambient-glow.position-bottom-right {
+    bottom: 5%;
+    right: -5%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--accent-gold-dark) 0%, transparent 70%);
+}
+
+/* Background floating particle drift */
+.ambient-particles-experience {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgba(204, 164, 59, 0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+    z-index: 2;
+    animation: timelineFloat 45s linear infinite;
+}
+
+@keyframes timelineFloat {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-160px) rotate(15deg); }
+}
+
+/* Parallax Chess Layer */
+.chess-parallax-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.parallax-chess-piece {
+    position: absolute;
     color: var(--accent-gold);
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.8));
+    transition: transform 0.1s ease-out;
 }
 
-.timeline {
+.parallax-knight {
+    top: 10%;
+    left: 4%;
+    width: 250px;
+    height: 250px;
+    transform: rotate(12deg);
+}
+
+.parallax-rook {
+    top: 42%;
+    right: 4%;
+    width: 280px;
+    height: 280px;
+    transform: rotate(-5deg);
+}
+
+.parallax-queen {
+    top: 72%;
+    left: 3%;
+    width: 260px;
+    height: 260px;
+    transform: rotate(8deg);
+}
+
+/* Metrics counters panel */
+.experience-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+    width: 100%;
+    max-width: 900px;
+    margin: 3.5rem auto 5.5rem auto !important;
     position: relative;
-    padding-left: 2rem;
+    z-index: 5;
 }
 
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 14px;
-    top: 5px;
-    height: calc(100% - 10px);
-    width: 1px;
-    background-color: var(--border-color);
-}
-
-.timeline-item {
-    position: relative;
-    padding-bottom: 2.2rem;
-}
-
-.timeline-item:last-child {
-    padding-bottom: 0;
-}
-
-.timeline-dot-container {
-    position: absolute;
-    left: -2rem;
-    top: 0px;
-    width: 30px;
-    height: 30px;
+.metric-box {
+    background: rgba(10, 12, 18, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius-md);
+    padding: 1.5rem !important;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.metric-box:hover {
+    transform: translateY(-4px);
+    background: rgba(14, 17, 24, 0.85);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7), var(--shadow-gold-glow);
+}
+
+.metric-number-wrap {
+    font-size: 2.2rem !important;
+    font-weight: 800;
+    color: var(--accent-gold-light);
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    margin-bottom: 0.4rem !important;
+    text-shadow: 0 0 15px rgba(229, 193, 88, 0.15);
+}
+
+.metric-plus {
+    color: var(--accent-gold);
+    margin-left: 0.1rem;
+}
+
+.metric-label {
+    font-size: 0.72rem !important;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* Timeline center path container */
+.timeline-container-journey {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 0;
+    z-index: 5;
+}
+
+.timeline-line-bg {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(-50%);
+}
+
+.timeline-line-progress {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, 
+        rgba(204, 164, 59, 0.2) 0%, 
+        var(--accent-gold) 50%, 
+        var(--accent-gold-light) 100%
+    );
+    box-shadow: 0 0 12px var(--accent-gold);
+    transform: translateX(-50%);
+    transform-origin: top center;
+    scale-y: 0; /* Animated by GSAP */
+}
+
+/* Milestones positioning list */
+.milestones-list-journey {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+.timeline-milestone-item {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; /* Right align by default, left overrides */
+}
+
+.timeline-milestone-item.milestone-item-left {
+    justify-content: flex-start;
+}
+
+/* Central anchor node dot */
+.journey-milestone-dot-anchor {
+    position: absolute;
+    left: 50%;
+    top: 2rem;
     transform: translateX(-50%);
     z-index: 10;
 }
 
-.timeline-dot {
-    width: 26px;
-    height: 26px;
-    border-radius: var(--radius-sm);
-    background: var(--bg-surface);
-    border: 1px solid var(--accent-gold);
+.journey-milestone-dot {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #0e1118;
+    border: 2px solid rgba(204, 164, 59, 0.25);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.75rem;
-    color: var(--accent-gold-light);
-    font-weight: 700;
     transition: var(--transition);
 }
 
-.timeline-item:hover .timeline-dot {
-    background: var(--accent-gold);
-    color: var(--text-dark);
-    box-shadow: var(--shadow-gold-glow);
-    transform: scale(1.08);
+.dot-inner-icon {
+    font-size: 1rem;
+    transition: var(--transition);
 }
 
-.timeline-content {
-    padding-left: 0.5rem;
+.timeline-milestone-item:hover .journey-milestone-dot {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px var(--accent-gold);
 }
 
-.move-type {
-    font-size: 0.7rem;
-    color: var(--accent-gold);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 0.25rem;
-    font-weight: 700;
+/* Glassmorphism milstone card */
+.milestone-card-glass {
+    width: 45%;
+    background: rgba(14, 17, 24, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius-lg);
+    padding: 2.2rem !important;
+    transition: var(--transition);
+    transform-style: preserve-3d;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
-.timeline-content h4 {
-    font-size: 1.1rem;
-    margin-bottom: 0.4rem;
-    color: var(--text-main);
+.milestone-card-glass:hover {
+    transform: translateY(-4px) scale(1.01) !important;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7), var(--shadow-gold-glow);
+    background: rgba(16, 20, 28, 0.85);
 }
 
-.timeline-meta {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-}
-
-.timeline-meta .company {
-    font-weight: 600;
-    color: var(--text-main);
-}
-
-.workshop-bullets {
+.card-perspective-inner {
+    transform-style: preserve-3d;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 0.8rem;
 }
 
-.workshop-bullets li {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.25rem;
-    padding: 1.15rem;
-    border: 1px solid var(--border-color);
-    background: rgba(6, 7, 10, 0.3);
-    border-radius: var(--radius-sm);
-    transition: var(--transition);
-}
-
-.workshop-bullets li:hover {
-    border-color: var(--accent-gold);
-    background: rgba(204, 164, 59, 0.02);
-}
-
-.bullet-point {
-    width: 24px;
-    height: 24px;
-    background: rgba(204, 164, 59, 0.08);
-    color: var(--accent-gold-light);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
+.card-top-header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid rgba(204, 164, 59, 0.1);
+    padding-bottom: 0.6rem !important;
+    margin-bottom: 0.2rem !important;
+}
+
+.move-number-label {
     font-size: 0.75rem;
     font-weight: 700;
+    color: var(--accent-gold);
+    letter-spacing: 0.15em;
+}
+
+.stage-tag {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.2rem 0.6rem !important;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.card-role-title {
+    font-size: 1.35rem !important;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: 0.02em;
+}
+
+.card-company-row {
+    font-size: 0.82rem;
+    color: var(--accent-gold-light);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+.meta-sep {
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+.duration-text {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* Bullet list detail highlights */
+.card-details-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.4rem 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.details-bullet {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.bullet-decor-knight {
+    color: var(--accent-gold);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    opacity: 0.85;
     flex-shrink: 0;
 }
 
-.workshop-bullets p {
+.bullet-desc {
+    font-size: 0.86rem !important;
     color: var(--text-muted);
-    font-size: 0.9rem;
-    line-height: 1.5;
-    margin: 0;
+    line-height: 1.45;
+    margin: 0 !important;
 }
 
-@media (max-width: 968px) {
-    .experience-container {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+/* Tags row */
+.card-tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem !important;
+    margin-top: 0.5rem !important;
+}
+
+.milestone-tag {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    background: rgba(204, 164, 59, 0.05);
+    border: 1px solid rgba(204, 164, 59, 0.15);
+    padding: 0.2rem 0.5rem !important;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+}
+
+.milestone-tag:hover {
+    color: var(--accent-gold-light);
+    border-color: var(--accent-gold);
+    background: rgba(204, 164, 59, 0.1);
+}
+
+/* Finale Quote Card Wrapper */
+.timeline-finale-wrap {
+    margin: 7rem auto 0 auto !important;
+    max-width: 800px;
+    background: rgba(10, 12, 18, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: var(--radius-lg);
+    padding: 3rem !important;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    position: relative;
+    z-index: 5;
+    overflow: hidden;
+}
+
+.timeline-finale-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 15% 50%, rgba(204, 164, 59, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+/* King visualization details */
+.king-visual-wrap {
+    position: relative;
+    width: 110px;
+    height: 150px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.king-visual-bg-glow {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(204, 164, 59, 0.25) 0%, transparent 70%);
+    filter: blur(10px);
+    animation: breathingGlow 4s infinite ease-in-out;
+}
+
+@keyframes breathingGlow {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.15); opacity: 1; }
+}
+
+.finale-king-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 15px rgba(229, 193, 88, 0.45));
+    animation: floatKing 5s infinite ease-in-out;
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes floatKing {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+/* Quote texts layout */
+.finale-quote-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    text-align: left;
+}
+
+.finale-quote-mark {
+    font-size: 4rem !important;
+    color: var(--accent-gold);
+    line-height: 0.1;
+    font-family: var(--font-heading);
+    opacity: 0.25;
+    margin-top: 1rem !important;
+}
+
+.finale-quote-text {
+    font-size: 1.15rem !important;
+    color: var(--text-main);
+    line-height: 1.5 !important;
+    font-style: italic;
+    font-family: var(--font-heading);
+    margin: 0 !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.finale-quote-author {
+    font-size: 0.72rem !important;
+    letter-spacing: 0.25em;
+    color: var(--accent-gold);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Responsive Scaling Rules */
+@media (max-width: 1024px) {
+    .experience-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 550px;
+    }
+
+    .parallax-knight, .parallax-rook, .parallax-queen {
+        width: 160px;
+        height: 160px;
     }
 }
 
-#experience {
-    position: relative;
-    background-image: 
-        linear-gradient(to right, rgba(6, 7, 10, 0.95) 0%, rgba(6, 7, 10, 0.8) 40%, rgba(6, 7, 10, 0.2) 100%),
-        url('/images/career-bg.png') !important;
-    background-size: cover !important;
-    background-position: center center !important;
+@media (max-width: 768px) {
+    .experience-section-cinematic {
+        padding: 3rem 0 !important;
+    }
+
+    .experience-metrics-grid {
+        grid-template-columns: 1fr;
+        max-width: 280px;
+        margin-bottom: 3.5rem !important;
+    }
+
+    /* Shift timeline line to the left */
+    .timeline-line-bg,
+    .timeline-line-progress {
+        left: 20px;
+        transform: none;
+    }
+
+    /* Shift central dots to the left */
+    .journey-milestone-dot-anchor {
+        left: 20px;
+        transform: translateX(-50%);
+        top: 1.8rem;
+    }
+
+    .journey-milestone-dot {
+        width: 32px;
+        height: 32px;
+    }
+
+    /* Expand cards to take full width */
+    .milestone-card-glass {
+        width: calc(100% - 45px);
+        margin-left: auto;
+        padding: 1.4rem !important;
+    }
+
+    .timeline-milestone-item {
+        justify-content: flex-end !important;
+    }
+
+    /* Staggered cards don't rotate on left/right on mobile */
+    .timeline-milestone-item .milestone-card-glass {
+        transform: none !important;
+    }
+
+    .card-role-title {
+        font-size: 1.15rem !important;
+    }
+
+    .card-company-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.2rem;
+    }
+
+    .meta-sep {
+        display: none;
+    }
+
+    /* Collapsing Quote Banner */
+    .timeline-finale-wrap {
+        flex-direction: column;
+        padding: 2.2rem 1.4rem !important;
+        gap: 1.8rem;
+        margin-top: 4.5rem !important;
+    }
+
+    .king-visual-wrap {
+        width: 90px;
+        height: 120px;
+    }
+
+    .finale-quote-text {
+        font-size: 1rem !important;
+        text-align: center;
+    }
+
+    .finale-quote-author {
+        text-align: center;
+    }
 }
