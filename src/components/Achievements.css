@@ -4,7 +4,7 @@
     padding: 6rem 0 !important;
     background-image: 
         linear-gradient(to right, rgba(6, 7, 10, 0.95) 0%, rgba(6, 7, 10, 0.8) 50%, rgba(6, 7, 10, 0.4) 100%),
-        url('/images/award-bg.png') !important;
+        url('/images/award-bg.webp') !important;
     background-size: cover !important;
     background-position: center center !important;
 }
@@ -158,10 +158,11 @@
 
 .achieve-stat-card {
     background: rgba(10, 12, 18, 0.65);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(204, 164, 59, 0.18);
     border-radius: var(--radius-md);
+    will-change: transform;
     padding: 1rem 0.8rem !important;
     display: flex;
     align-items: center;
@@ -267,10 +268,11 @@
 
 .recognition-card {
     background-color: rgba(10, 12, 18, 0.72);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     border: 1px solid rgba(204, 164, 59, 0.18);
     border-radius: var(--radius-md);
+    will-change: transform;
     padding: 1.2rem 1rem !important;
     transition: var(--transition);
     display: flex;
@@ -361,10 +363,11 @@
 /* Bottom Quote Banner */
 .achievements-quote-footer {
     background: rgba(10, 12, 18, 0.72);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     border: 1px solid rgba(204, 164, 59, 0.18);
     border-radius: var(--radius-md);
+    will-change: transform;
     padding: 1.2rem 2rem !important;
     display: flex;
     align-items: center;

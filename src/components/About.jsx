@@ -124,7 +124,7 @@ const About = () => {
 
                         {/* Profile Image */}
                         <img 
-                            src="/aswani-profile.png" 
+                            src="/aswani-profile.webp" 
                             alt="Aswani C" 
                             className="profile-display-img" 
                         />

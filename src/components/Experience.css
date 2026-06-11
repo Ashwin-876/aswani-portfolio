@@ -3,11 +3,25 @@
     position: relative;
     overflow: hidden;
     padding: 8rem 0 !important;
-    background: radial-gradient(circle at 10% 10%, rgba(204, 164, 59, 0.05) 0%, transparent 45%),
-                radial-gradient(circle at 90% 90%, rgba(204, 164, 59, 0.03) 0%, transparent 45%),
-                linear-gradient(180deg, #06070a 0%, #0c0e15 50%, #06070a 100%) !important;
+    background-image: 
+        radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.92) 100%),
+        linear-gradient(rgba(204, 164, 59, 0.012) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(204, 164, 59, 0.012) 1px, transparent 1px),
+        linear-gradient(180deg, #020305 0%, #050811 50%, #020305 100%) !important;
+    background-size: 100% 100%, 70px 70px, 70px 70px, 100% 100% !important;
     perspective: 1500px;
     transform-style: preserve-3d;
+}
+
+/* Golden Particles Background Canvas */
+.career-particles-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.85;
 }
 
 /* Ambient glows */
@@ -160,17 +174,16 @@
 
 .timeline-line-bg {
     position: absolute;
-    left: 50%;
+    left: calc(50% - 1px);
     top: 0;
     bottom: 0;
     width: 2px;
     background: rgba(255, 255, 255, 0.05);
-    transform: translateX(-50%);
 }
 
 .timeline-line-progress {
     position: absolute;
-    left: 50%;
+    left: calc(50% - 1px);
     top: 0;
     bottom: 0;
     width: 2px;
@@ -180,9 +193,9 @@
         var(--accent-gold-light) 100%
     );
     box-shadow: 0 0 12px var(--accent-gold);
-    transform: translateX(-50%);
+    transform: scaleY(0);
     transform-origin: top center;
-    scale-y: 0; /* Animated by GSAP */
+    will-change: transform;
 }
 
 /* Milestones positioning list */
@@ -197,6 +210,7 @@
     width: 100%;
     display: flex;
     justify-content: flex-end; /* Right align by default, left overrides */
+    will-change: transform, opacity;
 }
 
 .timeline-milestone-item.milestone-item-left {
@@ -496,7 +510,6 @@
     .timeline-line-bg,
     .timeline-line-progress {
         left: 20px;
-        transform: none;
     }
 
     /* Shift central dots to the left */

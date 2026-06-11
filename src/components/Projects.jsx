@@ -168,7 +168,7 @@ const Projects = () => {
             title: "Brain Tumor Detection",
             category: "Computer Vision",
             tags: ["Computer Vision", "AI / ML"],
-            image: "/images/brain_tumor.png",
+            image: "/images/brain_tumor.webp",
             description: "Deep learning model to detect and classify brain tumors from MRI scans with high accuracy.",
             techStack: [
                 { name: "Python", icon: TechSVGs.python },
@@ -183,7 +183,7 @@ const Projects = () => {
             title: "Stock Price Prediction",
             category: "Data Science",
             tags: ["Data Science", "AI / ML"],
-            image: "/images/stock_prediction.png",
+            image: "/images/stock_prediction.webp",
             description: "LSTM based model to predict stock prices using historical data and technical indicators.",
             techStack: [
                 { name: "Python", icon: TechSVGs.python },
@@ -198,7 +198,7 @@ const Projects = () => {
             title: "AI Chatbot Assistant",
             category: "NLP",
             tags: ["NLP", "AI / ML"],
-            image: "/images/ai_chatbot.png",
+            image: "/images/ai_chatbot.webp",
             description: "Intelligent chatbot using NLP and Transformers to understand and respond to user queries.",
             techStack: [
                 { name: "Python", icon: TechSVGs.python },
@@ -213,7 +213,7 @@ const Projects = () => {
             title: "Real-time Object Detection",
             category: "Computer Vision",
             tags: ["Computer Vision", "AI / ML"],
-            image: "/images/object_detection.png",
+            image: "/images/object_detection.webp",
             description: "YOLOv8 based real-time object detection system for identifying multiple objects in images and video.",
             techStack: [
                 { name: "Python", icon: TechSVGs.python },
@@ -228,7 +228,7 @@ const Projects = () => {
             title: "Sales Dashboard Analytics",
             category: "Data Science",
             tags: ["Data Science", "Web Development"],
-            image: "/images/sales_dashboard.png",
+            image: "/images/sales_dashboard.webp",
             description: "Interactive dashboard for sales insights, data visualization and business decision making.",
             techStack: [
                 { name: "Python", icon: TechSVGs.python },
@@ -243,7 +243,7 @@ const Projects = () => {
             title: "Fake News Detection",
             category: "NLP",
             tags: ["NLP", "AI / ML"],
-            image: "/images/fake_news.png",
+            image: "/images/fake_news.webp",
             description: "Machine learning model to detect fake news articles based on text features and NLP techniques.",
             techStack: [
                 { name: "Python", icon: TechSVGs.python },

@@ -7,7 +7,7 @@
     overflow: hidden;
     background-image: 
         linear-gradient(to right, rgba(6, 7, 10, 0.85) 0%, rgba(6, 7, 10, 0.5) 45%, rgba(6, 7, 10, 0.0) 100%),
-        url('/images/about-bg.png') !important;
+        url('/images/about-bg.webp') !important;
     background-size: cover !important;
     background-position: center center !important;
 }
@@ -89,8 +89,9 @@
     padding: 2.2rem 1.4rem;
     transition: var(--transition);
     text-align: center;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    will-change: transform;
 }
 
 .about-card-item:hover {
@@ -145,6 +146,8 @@
     background: rgba(6, 7, 10, 0.9);
     box-shadow: 0 35px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(204, 164, 59, 0.08);
     overflow: hidden;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
     display: flex;
     align-items: flex-end;
 }
@@ -193,8 +196,8 @@
     left: 1.6rem;
     right: 1.6rem;
     background: rgba(6, 7, 10, 0.65);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(204, 164, 59, 0.25);
     border-radius: 16px;
     padding: 1.1rem 1.4rem;

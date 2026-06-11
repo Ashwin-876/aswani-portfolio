@@ -1,6 +1,6 @@
 .contact-section {
     background-color: transparent !important;
-    background-image: linear-gradient(rgba(6, 7, 10, 0.45), rgba(6, 7, 10, 0.55)), url('/images/contact_background.png') !important;
+    background-image: linear-gradient(rgba(6, 7, 10, 0.45), rgba(6, 7, 10, 0.55)), url('/images/contact_background.webp') !important;
     background-size: cover !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
@@ -44,8 +44,8 @@
     grid-template-columns: 1fr 1.3fr;
     gap: 0;
     background-color: rgba(14, 17, 24, 0.65) !important;
-    backdrop-filter: blur(15px) !important;
-    -webkit-backdrop-filter: blur(15px) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
     border-radius: var(--radius-md);
     overflow: hidden;
     max-width: 1000px; /* Constrained width to look sharper on large displays */

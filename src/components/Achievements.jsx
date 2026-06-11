@@ -155,11 +155,13 @@ const Achievements = () => {
         }
     ];
 
+    // Hook 1: Canvas particle embers drift loop (Viewport Throttled)
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         let animationFrameId;
+        let isVisible = false;
 
         // Resize handler
         const resizeCanvas = () => {
@@ -170,22 +172,27 @@ const Achievements = () => {
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Dust/embers array
-        const particleCount = 45;
+        // Dust/embers array (reduced count for performance)
+        const particleCount = 25;
         const particles = [];
         for (let i = 0; i < particleCount; i++) {
             particles.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                vy: -(Math.random() * 0.35 + 0.1), // floating upwards
-                vx: (Math.random() - 0.5) * 0.15,
-                radius: Math.random() * 1.5 + 0.6,
+                vy: -(Math.random() * 0.25 + 0.1), // floating upwards
+                vx: (Math.random() - 0.5) * 0.12,
+                radius: Math.random() * 1.2 + 0.6,
                 alpha: Math.random() * 0.35 + 0.1
             });
         }
 
         // Animation loop
         const animate = () => {
+            if (!isVisible) {
+                animationFrameId = null;
+                return;
+            }
+            
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             particles.forEach(p => {
@@ -209,10 +216,110 @@ const Achievements = () => {
             
             animationFrameId = requestAnimationFrame(animate);
         };
-        animate();
 
-        // GSAP ScrollTrigger Context
-        let gsapCtx = gsap.context(() => {
+        // Intersection Observer to throttle canvas rendering when out of viewport
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                isVisible = entry.isIntersecting;
+                if (isVisible) {
+                    if (!animationFrameId) {
+                        animationFrameId = requestAnimationFrame(animate);
+                    }
+                } else {
+                    if (animationFrameId) {
+                        cancelAnimationFrame(animationFrameId);
+                        animationFrameId = null;
+                    }
+                }
+            });
+        }, { threshold: 0.02 });
+
+        observer.observe(canvas);
+
+        return () => {
+            window.removeEventListener('resize', resizeCanvas);
+            observer.disconnect();
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+        };
+    }, []);
+
+    // Hook 2: GSAP ScrollTrigger Configurations (Responsive & Optimized)
+    useEffect(() => {
+        let mm = gsap.matchMedia();
+
+        mm.add("(min-width: 768px)", () => {
+            // Desktop-only parallax scroll for background chess vectors
+            gsap.to(".hall-queen", {
+                y: -50,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#achievements",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+            gsap.to(".hall-knight", {
+                y: 65,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#achievements",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // Desktop 3D staggered reveal of cards
+            const cards = gsap.utils.toArray(".recognition-card");
+            gsap.fromTo(cards,
+                {
+                    opacity: 0,
+                    y: 40,
+                    scale: 0.95,
+                    rotateY: 10
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    rotateY: 0,
+                    duration: 1.0,
+                    stagger: 0.08,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: ".recognitions-grid-modern",
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+
+        mm.add("(max-width: 767px)", () => {
+            // Mobile-optimized simple reveals
+            const cards = gsap.utils.toArray(".recognition-card");
+            gsap.fromTo(cards,
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    stagger: 0.06,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: ".recognitions-grid-modern",
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+
+        mm.add("all", () => {
+            // Animations active on all viewport sizes
             // Animate counters row cards
             const statCards = gsap.utils.toArray(".achieve-stat-card");
             gsap.fromTo(statCards,
@@ -251,61 +358,9 @@ const Achievements = () => {
                     }
                 );
             });
+        });
 
-            // Stagger reveal of cards with 3D entry rotation
-            const cards = gsap.utils.toArray(".recognition-card");
-            gsap.fromTo(cards,
-                {
-                    opacity: 0,
-                    y: 40,
-                    scale: 0.95,
-                    rotateY: 10
-                },
-                {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    rotateY: 0,
-                    duration: 1.1,
-                    stagger: 0.08,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: ".recognitions-grid-modern",
-                        start: "top 80%",
-                        toggleActions: "play none none none"
-                    }
-                }
-            );
-
-            // Parallax scroll for background chess vectors
-            gsap.to(".hall-queen", {
-                y: -50,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#achievements",
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-            gsap.to(".hall-knight", {
-                y: 65,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#achievements",
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-
-        }, sectionRef);
-
-        return () => {
-            window.removeEventListener('resize', resizeCanvas);
-            cancelAnimationFrame(animationFrameId);
-            gsapCtx.revert();
-        };
+        return () => mm.revert();
     }, []);
 
     return (

@@ -373,11 +373,13 @@ const Arsenal = () => {
         "[umbrella: 78%]"
     ];
 
+    // Hook 1: Neural Canvas background animation loop (Viewport Throttled)
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         let animationFrameId;
+        let isVisible = false;
 
         // Resize handler
         const resizeCanvas = () => {
@@ -388,21 +390,26 @@ const Arsenal = () => {
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Neural Particles array
-        const particlesCount = 40;
+        // Neural Particles array (reduced count for performance)
+        const particlesCount = 20;
         const particles = [];
         for (let i = 0; i < particlesCount; i++) {
             particles.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.35,
-                vy: (Math.random() - 0.5) * 0.35,
-                radius: Math.random() * 1.5 + 1
+                vx: (Math.random() - 0.5) * 0.25,
+                vy: (Math.random() - 0.5) * 0.25,
+                radius: Math.random() * 1.2 + 1
             });
         }
 
         // Animation loop
         const animate = () => {
+            if (!isVisible) {
+                animationFrameId = null;
+                return;
+            }
+            
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             // Draw and update particles
@@ -420,15 +427,15 @@ const Arsenal = () => {
                 ctx.fillStyle = 'rgba(204, 164, 59, 0.18)'; // transparent gold
                 ctx.fill();
                 
-                // Connection lines
+                // Connection lines (reduced radius from 110 to 85 to optimize rendering)
                 for (let j = idx + 1; j < particles.length; j++) {
                     const p2 = particles[j];
                     const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist < 110) {
+                    if (dist < 85) {
                         ctx.beginPath();
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(p2.x, p2.y);
-                        const alpha = (1 - dist / 110) * 0.08;
+                        const alpha = (1 - dist / 85) * 0.08;
                         ctx.strokeStyle = `rgba(204, 164, 59, ${alpha})`;
                         ctx.lineWidth = 0.5;
                         ctx.stroke();
@@ -438,75 +445,41 @@ const Arsenal = () => {
             
             animationFrameId = requestAnimationFrame(animate);
         };
-        animate();
 
-        // GSAP ScrollTrigger context
-        let gsapCtx = gsap.context(() => {
-            // Animate Telemetry counter card entries
-            const statCards = gsap.utils.toArray(".telemetry-stat-card");
-            gsap.fromTo(statCards,
-                { opacity: 0, y: 30, scale: 0.95 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    duration: 0.8,
-                    stagger: 0.1,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: ".telemetry-stats-row",
-                        start: "top 85%",
-                        toggleActions: "play none none none"
+        // Intersection Observer to throttle canvas rendering when out of viewport
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                isVisible = entry.isIntersecting;
+                if (isVisible) {
+                    if (!animationFrameId) {
+                        animationFrameId = requestAnimationFrame(animate);
+                    }
+                } else {
+                    if (animationFrameId) {
+                        cancelAnimationFrame(animationFrameId);
+                        animationFrameId = null;
                     }
                 }
-            );
-
-            // Animate the text digits
-            const counters = gsap.utils.toArray(".telemetry-stat-card .stat-number");
-            counters.forEach(counter => {
-                const target = parseInt(counter.getAttribute("data-target"), 10);
-                gsap.fromTo(counter, 
-                    { textContent: 0 },
-                    { 
-                        textContent: target,
-                        duration: 2,
-                        ease: "power2.out",
-                        snap: { textContent: 1 },
-                        scrollTrigger: {
-                            trigger: counter,
-                            start: "top 90%",
-                            toggleActions: "play none none none"
-                        }
-                    }
-                );
             });
+        }, { threshold: 0.02 });
 
-            // Stagger reveal of tech category cards with 3D Y-axis entrance
-            const cards = gsap.utils.toArray(".arsenal-category-card");
-            gsap.fromTo(cards,
-                {
-                    opacity: 0,
-                    y: 50,
-                    rotateX: 10,
-                    scale: 0.97
-                },
-                {
-                    opacity: 1,
-                    y: 0,
-                    rotateX: 0,
-                    scale: 1,
-                    duration: 1.1,
-                    stagger: 0.08,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: ".arsenal-grid-modern",
-                        start: "top 80%",
-                        toggleActions: "play none none none"
-                    }
-                }
-            );
+        observer.observe(canvas);
 
-            // Parallax translation for background chess pieces
+        return () => {
+            window.removeEventListener('resize', resizeCanvas);
+            observer.disconnect();
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+        };
+    }, []);
+
+    // Hook 2: GSAP ScrollTrigger Configurations (Responsive & Optimized)
+    useEffect(() => {
+        let mm = gsap.matchMedia();
+
+        mm.add("(min-width: 768px)", () => {
+            // Desktop-only parallax translation for background chess pieces
             gsap.to(".stack-knight", {
                 y: -90,
                 ease: "none",
@@ -538,13 +511,95 @@ const Arsenal = () => {
                 }
             });
 
-        }, sectionRef);
+            // Desktop 3D staggered reveal of tech category cards
+            const cards = gsap.utils.toArray(".arsenal-category-card");
+            gsap.fromTo(cards,
+                {
+                    opacity: 0,
+                    y: 40,
+                    rotateX: 10,
+                    scale: 0.97
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    rotateX: 0,
+                    scale: 1,
+                    duration: 1.0,
+                    stagger: 0.08,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: ".arsenal-grid-modern",
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
 
-        return () => {
-            window.removeEventListener('resize', resizeCanvas);
-            cancelAnimationFrame(animationFrameId);
-            gsapCtx.revert();
-        };
+        mm.add("(max-width: 767px)", () => {
+            // Mobile-optimized simple category reveals
+            const cards = gsap.utils.toArray(".arsenal-category-card");
+            gsap.fromTo(cards,
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    stagger: 0.06,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: ".arsenal-grid-modern",
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+        });
+
+        mm.add("all", () => {
+            // Animations active on all viewport sizes
+            // Animate Telemetry counter card entries
+            const statCards = gsap.utils.toArray(".telemetry-stat-card");
+            gsap.fromTo(statCards,
+                { opacity: 0, y: 25, scale: 0.96 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.7,
+                    stagger: 0.08,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: ".telemetry-stats-row",
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+
+            // Animate the text digits
+            const counters = gsap.utils.toArray(".telemetry-stat-card .stat-number");
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute("data-target"), 10);
+                gsap.fromTo(counter, 
+                    { textContent: 0 },
+                    { 
+                        textContent: target,
+                        duration: 1.8,
+                        ease: "power2.out",
+                        snap: { textContent: 1 },
+                        scrollTrigger: {
+                            trigger: counter,
+                            start: "top 90%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+        });
+
+        return () => mm.revert();
     }, []);
 
     return (

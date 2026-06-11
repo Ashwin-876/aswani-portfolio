@@ -213,8 +213,8 @@
 
 .telemetry-stat-card {
     background: rgba(10, 12, 18, 0.65);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     border: 1px solid rgba(204, 164, 59, 0.15);
     border-radius: var(--radius-md);
     padding: 1.2rem 1rem !important;
@@ -222,6 +222,7 @@
     transition: var(--transition);
     transform-style: preserve-3d;
     perspective: 1000px;
+    will-change: transform, opacity;
 }
 
 .telemetry-stat-card:hover {
@@ -272,8 +273,8 @@
 
 .arsenal-category-card {
     background: rgba(10, 12, 18, 0.72);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     border-radius: var(--radius-md);
     border: 1px solid rgba(204, 164, 59, 0.18);
     padding: 1.2rem !important;
@@ -281,6 +282,7 @@
     display: flex;
     flex-direction: column;
     transform-style: preserve-3d;
+    will-change: transform, opacity;
 }
 
 .arsenal-category-card.col-span-2 {

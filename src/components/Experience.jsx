@@ -55,6 +55,7 @@ const ChessSVGs = {
 
 const Experience = () => {
     const sectionRef = useRef(null);
+    const canvasRef = useRef(null);
 
     const milestones = [
         {
@@ -122,142 +123,281 @@ const Experience = () => {
         { target: 15, label: "Awards & Wins", suffix: "+" }
     ];
 
+    // Hook 1: Championship Dust Particles Canvas Loop (Viewport Throttled)
     useEffect(() => {
-        // Timeline path drawing animation on scroll
-        gsap.fromTo(".timeline-line-progress",
-            { scaleY: 0 },
-            {
-                scaleY: 1,
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let animationFrameId;
+        let isVisible = false;
+
+        const resizeCanvas = () => {
+            const parent = canvas.parentElement || document.body;
+            canvas.width = parent.clientWidth;
+            canvas.height = parent.clientHeight;
+        };
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Subtle floating particles representing championship dust (reduced count for performance)
+        const particleCount = 30;
+        const particles = [];
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vy: -(Math.random() * 0.25 + 0.1), // floating upwards
+                vx: (Math.random() - 0.5) * 0.12,
+                radius: Math.random() * 1.2 + 0.5,
+                alpha: Math.random() * 0.35 + 0.1,
+                twinkleSpeed: Math.random() * 0.02 + 0.005,
+                twinkleDir: Math.random() > 0.5 ? 1 : -1
+            });
+        }
+
+        const animate = () => {
+            if (!isVisible) {
+                animationFrameId = null;
+                return;
+            }
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(p => {
+                p.y += p.vy;
+                p.x += p.vx;
+                
+                // Twinkle effect (twinkle alpha between 0.1 and 0.5)
+                p.alpha += p.twinkleSpeed * p.twinkleDir;
+                if (p.alpha > 0.5) {
+                    p.alpha = 0.5;
+                    p.twinkleDir = -1;
+                } else if (p.alpha < 0.1) {
+                    p.alpha = 0.1;
+                    p.twinkleDir = 1;
+                }
+
+                // Recycle if they drift off bounds
+                if (p.y < 0) {
+                    p.y = canvas.height;
+                    p.x = Math.random() * canvas.width;
+                    p.alpha = Math.random() * 0.35 + 0.1;
+                }
+                if (p.x < 0 || p.x > canvas.width) {
+                    p.vx *= -1;
+                }
+                
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(204, 164, 59, ${p.alpha})`;
+                ctx.fill();
+            });
+            
+            animationFrameId = requestAnimationFrame(animate);
+        };
+
+        // Intersection Observer to throttle canvas rendering when out of viewport
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                isVisible = entry.isIntersecting;
+                if (isVisible) {
+                    if (!animationFrameId) {
+                        animationFrameId = requestAnimationFrame(animate);
+                    }
+                } else {
+                    if (animationFrameId) {
+                        cancelAnimationFrame(animationFrameId);
+                        animationFrameId = null;
+                    }
+                }
+            });
+        }, { threshold: 0.02 });
+
+        observer.observe(canvas);
+
+        return () => {
+            window.removeEventListener('resize', resizeCanvas);
+            observer.disconnect();
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+        };
+    }, []);
+
+    // Hook 2: GSAP ScrollTrigger Configurations (Responsive & Optimized)
+    useEffect(() => {
+        let mm = gsap.matchMedia();
+
+        mm.add("(min-width: 768px)", () => {
+            // Desktop-only parallax background chess pieces animation
+            gsap.to(".parallax-knight", {
+                y: -80,
+                rotate: 5,
                 ease: "none",
                 scrollTrigger: {
-                    trigger: ".timeline-container-journey",
-                    start: "top 25%",
-                    end: "bottom 75%",
+                    trigger: sectionRef.current,
+                    start: "top bottom",
+                    end: "bottom top",
                     scrub: true
                 }
-            }
-        );
+            });
 
-        // Stagger reveal of milestones with custom 3D rotation and sliding entrances
-        const items = gsap.utils.toArray(".timeline-milestone-item");
-        items.forEach((item, idx) => {
-            const isLeft = idx % 2 === 0;
-            gsap.fromTo(item,
+            gsap.to(".parallax-rook", {
+                y: 90,
+                rotate: -8,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            gsap.to(".parallax-queen", {
+                y: -50,
+                rotate: 3,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // Desktop 3D milestone rotations
+            const items = gsap.utils.toArray(".timeline-milestone-item");
+            items.forEach((item, idx) => {
+                const isLeft = idx % 2 === 0;
+                gsap.fromTo(item,
+                    {
+                        opacity: 0,
+                        x: isLeft ? -100 : 100,
+                        rotateY: isLeft ? -15 : 15,
+                        scale: 0.96
+                    },
+                    {
+                        opacity: 1,
+                        x: 0,
+                        rotateY: 0,
+                        scale: 1,
+                        duration: 1.1,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: item,
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+        });
+
+        mm.add("(max-width: 767px)", () => {
+            // Mobile-optimized simple reveals (no heavy 3D transforms, no side shifts)
+            const items = gsap.utils.toArray(".timeline-milestone-item");
+            items.forEach((item) => {
+                gsap.fromTo(item,
+                    { opacity: 0, y: 30 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: item,
+                            start: "top 90%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+        });
+
+        mm.add("all", () => {
+            // Animations active on all viewport sizes
+            // Timeline path drawing animation on scroll
+            gsap.fromTo(".timeline-line-progress",
+                { scaleY: 0, transformOrigin: "top center" },
                 {
-                    opacity: 0,
-                    x: isLeft ? -120 : 120,
-                    rotateY: isLeft ? -20 : 20,
-                    scale: 0.95
-                },
-                {
-                    opacity: 1,
-                    x: 0,
-                    rotateY: 0,
-                    scale: 1,
-                    duration: 1.2,
-                    ease: "power3.out",
+                    scaleY: 1,
+                    transformOrigin: "top center",
+                    ease: "none",
                     scrollTrigger: {
-                        trigger: item,
-                        start: "top 85%",
-                        toggleActions: "play none none none"
+                        trigger: ".timeline-container-journey",
+                        start: "top 70%",
+                        end: "bottom 70%",
+                        scrub: true
                     }
                 }
             );
 
             // Animate card dots as timeline reaches them
-            const dot = item.querySelector(".journey-milestone-dot");
-            if (dot) {
-                gsap.fromTo(dot,
-                    { scale: 0.5, backgroundColor: "rgba(14, 17, 24, 0.9)", borderColor: "rgba(204, 164, 59, 0.2)" },
+            const items = gsap.utils.toArray(".timeline-milestone-item");
+            items.forEach((item) => {
+                const dot = item.querySelector(".journey-milestone-dot");
+                if (dot) {
+                    gsap.fromTo(dot,
+                        { scale: 0.5, backgroundColor: "rgba(14, 17, 24, 0.9)", borderColor: "rgba(204, 164, 59, 0.2)" },
+                        {
+                            scale: 1,
+                            backgroundColor: "var(--accent-gold)",
+                            borderColor: "var(--accent-gold-light)",
+                            boxShadow: "0 0 12px var(--accent-gold)",
+                            scrollTrigger: {
+                                trigger: item,
+                                start: "top 55%",
+                                toggleActions: "play none none reverse"
+                            }
+                        }
+                    );
+                }
+            });
+
+            // Count up stats animations
+            gsap.utils.toArray(".metric-digit").forEach((digit) => {
+                const targetVal = parseInt(digit.getAttribute("data-target"), 10);
+                gsap.fromTo(digit,
+                    { textContent: 0 },
                     {
-                        scale: 1,
-                        backgroundColor: "var(--accent-gold)",
-                        borderColor: "var(--accent-gold-light)",
-                        boxShadow: "0 0 15px var(--accent-gold)",
+                        textContent: targetVal,
+                        duration: 2.0,
+                        snap: { textContent: 1 },
+                        ease: "power2.out",
                         scrollTrigger: {
-                            trigger: item,
-                            start: "top 55%",
-                            toggleActions: "play none none reverse"
+                            trigger: ".experience-metrics-grid",
+                            start: "top 90%"
                         }
                     }
                 );
-            }
-        });
+            });
 
-        // Parallax background chess pieces animation
-        gsap.to(".parallax-knight", {
-            y: -80,
-            rotate: 5,
-            ease: "none",
-            scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
-            }
-        });
-
-        gsap.to(".parallax-rook", {
-            y: 90,
-            rotate: -8,
-            ease: "none",
-            scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
-            }
-        });
-
-        gsap.to(".parallax-queen", {
-            y: -50,
-            rotate: 3,
-            ease: "none",
-            scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
-            }
-        });
-
-        // Count up stats animations
-        gsap.utils.toArray(".metric-digit").forEach((digit) => {
-            const targetVal = parseInt(digit.getAttribute("data-target"), 10);
-            gsap.fromTo(digit,
-                { innerText: 0 },
+            // Finale King card reveal
+            gsap.fromTo(".timeline-finale-wrap",
+                { opacity: 0, scale: 0.95, y: 40 },
                 {
-                    innerText: targetVal,
-                    duration: 2.2,
-                    snap: { innerText: 1 },
-                    ease: "power2.out",
+                    opacity: 1,
+                    scale: 1,
+                    y: 0,
+                    duration: 1.2,
+                    ease: "power3.out",
                     scrollTrigger: {
-                        trigger: ".experience-metrics-grid",
-                        start: "top 90%"
+                        trigger: ".timeline-finale-wrap",
+                        start: "top 85%"
                     }
                 }
             );
         });
 
-        // Finale King card reveal
-        gsap.fromTo(".timeline-finale-wrap",
-            { opacity: 0, scale: 0.92, y: 60 },
-            {
-                opacity: 1,
-                scale: 1,
-                y: 0,
-                duration: 1.5,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: ".timeline-finale-wrap",
-                    start: "top 85%"
-                }
-            }
-        );
+        return () => mm.revert();
     }, []);
 
     return (
         <section ref={sectionRef} id="experience" className="section experience-section-cinematic">
+            {/* Fullscreen Golden Particles Background Canvas */}
+            <canvas ref={canvasRef} className="career-particles-canvas" />
+
             {/* Ambient lighting focal overlay grids */}
             <div className="experience-ambient-glow position-top-left"></div>
             <div className="experience-ambient-glow position-bottom-right"></div>

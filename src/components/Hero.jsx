@@ -48,7 +48,7 @@ const Hero = () => {
         console.warn(`Failed to load frame ${frameNum}, trying fallback`);
         // Fallback to load placeholder or proceed to avoid blocking the app
         const fallbackImg = new Image();
-        fallbackImg.src = '/aswani-profile.png'; // Fallback asset
+        fallbackImg.src = '/aswani-profile.webp'; // Fallback asset
         fallbackImg.onload = () => {
           loadedImages[index] = fallbackImg;
           loadedCount++;
