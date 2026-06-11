@@ -1,57 +1,68 @@
 import React from 'react';
-import { Code, Layout, Database, Settings, Cloud, PenTool } from 'lucide-react';
+import { Cpu, Terminal, Compass, ShieldAlert, Award, Database } from 'lucide-react';
 import './Skills.css';
 
 const Skills = () => {
     const skillCategories = [
         {
-            title: "Programming",
-            icon: <Code size={24} />,
-            skills: ["Python", "C", "C++"]
+            piece: "MACHINE LEARNING",
+            role: "Supervised & Unsupervised Learning",
+            icon: <Database size={20} />,
+            skills: ["Regression", "Classification", "Clustering", "Scikit-Learn", "Model Tuning"]
         },
         {
-            title: "Web & Full-stack",
-            icon: <Layout size={24} />,
-            skills: ["HTML", "CSS", "JavaScript", "React", "Node.js (Basic)"]
+            piece: "DEEP LEARNING",
+            role: "Neural Network Architecture",
+            icon: <Cpu size={20} />,
+            skills: ["TensorFlow", "CNNs", "PyTorch Basics", "Backpropagation", "Neural Design"]
         },
         {
-            title: "Data & ML",
-            icon: <Database size={24} />,
-            skills: ["Machine Learning", "Deep Learning", "Model Building", "Dataset Handling"]
+            piece: "COMPUTER VISION",
+            role: "Spatial & Image Processing",
+            icon: <Terminal size={20} />,
+            skills: ["OpenCV", "Object Detection", "Face Recognition", "Image Segmentation"]
         },
         {
-            title: "Tools",
-            icon: <Settings size={24} />,
-            skills: ["Tableau", "Power BI", "Canva", "Figma", "MS Office", "Advanced Excel"]
+            piece: "GENERATIVE AI",
+            role: "Synthesis & Language Models",
+            icon: <Compass size={20} />,
+            skills: ["LLM Integration", "Prompt Engineering", "API Orchestration", "Transformers"]
         },
         {
-            title: "Cloud & DevOps",
-            icon: <Cloud size={24} />,
-            skills: ["Cloud Technologies (Trained)", "Firebase", "Version Control (Git)"]
+            piece: "DATA SCIENCE",
+            role: "Exploration & Analytics",
+            icon: <Award size={20} />,
+            skills: ["Data Wrangling", "Pandas & NumPy", "Tableau", "Power BI", "SQL Queries"]
         },
         {
-            title: "Other",
-            icon: <PenTool size={24} />,
-            skills: ["UI/UX Design Basics", "Technical Writing"]
+            piece: "PROBLEM SOLVING",
+            role: "Algorithmic Calculation",
+            icon: <ShieldAlert size={20} />,
+            skills: ["Data Structures", "Logical Analysis", "Computational Tactics", "Heuristic Methods"]
         }
     ];
 
     return (
-        <section id="skills" className="section bg-alt">
+        <section id="skills" className="section">
             <div className="container">
-                <h2 className="section-title">Skills & <span>Tools</span></h2>
-                <p className="section-subtitle">
-                    The technologies and tools I use to build scalable, intelligent applications.
-                </p>
+                <div className="notation-badge">
+                    <span className="badge-move">CALCULATIONS</span>
+                    <span className="badge-code">AI EXPERTISE</span>
+                </div>
+                <h2 className="section-title">THE <span>CALCULATIONS</span></h2>
+                <p className="section-subtitle">Deep intelligence layers and mathematical calculations</p>
 
                 <div className="skills-grid">
                     {skillCategories.map((category, index) => (
-                        <div key={index} className="skill-card box-panel">
+                        <div key={index} className="skill-card gold-border">
                             <div className="skill-card-header">
                                 <div className="skill-icon-wrapper">
                                     {category.icon}
                                 </div>
-                                <h3>{category.title}</h3>
+                                <div>
+                                    <span className="piece-title font-mono">{category.piece}</span>
+                                    <h3 className="piece-role">{category.role}</h3>
+                                </div>
                             </div>
 
                             <div className="skill-tags">

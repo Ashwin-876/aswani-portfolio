@@ -2,12 +2,14 @@ import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
-import Experience from './components/Experience';
-import Projects from './components/Projects';
 import Skills from './components/Skills';
+import Arsenal from './components/Arsenal';
+import Projects from './components/Projects';
+import AIEngine from './components/AIEngine';
 import Achievements from './components/Achievements';
+import Experience from './components/Experience';
 import Contact from './components/Contact';
-import Footer from './components/Footer';
+import SocialFooter from './components/SocialFooter';
 import useScrollReveal from './hooks/useScrollReveal';
 
 function App() {
@@ -15,17 +17,21 @@ function App() {
 
   return (
     <div className="app">
+      <div className="ambient-particles"></div>
+      <div className="chess-board-grid"></div>
       <Navbar />
       <main>
         <Hero />
         <About />
-        <Experience />
-        <Projects />
         <Skills />
+        <Arsenal />
+        <Projects />
+        <AIEngine />
         <Achievements />
+        <Experience />
         <Contact />
       </main>
-      <Footer />
+      <SocialFooter />
     </div>
   );
 }

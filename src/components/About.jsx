@@ -1,55 +1,133 @@
-import React from 'react';
-import { GraduationCap, BrainCircuit, Code2 } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
+import { Brain, BarChart3, Lightbulb, Cpu } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './About.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const About = () => {
+    const sectionRef = useRef(null);
+    const profileRef = useRef(null);
+
+    useEffect(() => {
+        // Fade up of heading and tagline
+        gsap.fromTo(".about-left > *", 
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                stagger: 0.15,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                }
+            }
+        );
+
+        // Staggered fade in of about cards
+        gsap.fromTo(".about-card-item",
+            { opacity: 0, y: 40 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1.0,
+                stagger: 0.15,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: ".about-cards-grid",
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                }
+            }
+        );
+
+        // Parallax effect on the profile card (moves slower/faster than scroll)
+        gsap.fromTo(profileRef.current,
+            { y: 50 },
+            {
+                y: -50,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            }
+        );
+    }, []);
+
     return (
-        <section id="about" className="section">
-            <div className="container">
-                <h2 className="section-title">About <span>Me</span></h2>
-
-                <div className="about-content">
-                    <div className="about-text">
-                        <p>
-                            I’m Aswani, a 3rd-year B.Tech student specializing in AI & Data Science at Christ the King Engineering College. I’m passionate about building real-time AI/ML applications and web solutions. I have hands-on experience through internships, workshops and competitions, and I’m actively seeking internships or collaborative projects in AI/ML and cloud.
-                        </p>
-
-                        <div className="about-highlights mt-8">
-                            <div className="highlight-item">
-                                <GraduationCap className="highlight-icon" />
-                                <div>
-                                    <h4>Education</h4>
-                                    <p>B.Tech in AI & Data Science</p>
-                                    <p className="text-sm text-muted">Christ the King Engineering College — 3rd Year</p>
-                                </div>
-                            </div>
-
-                            <div className="highlight-item">
-                                <BrainCircuit className="highlight-icon" />
-                                <div>
-                                    <h4>AI & Machine Learning</h4>
-                                    <p>Focusing on real-time models and data-driven solutions.</p>
-                                </div>
-                            </div>
-
-                            <div className="highlight-item">
-                                <Code2 className="highlight-icon" />
-                                <div>
-                                    <h4>Web Solutions</h4>
-                                    <p>Building responsive platforms and interactive web applications.</p>
-                                </div>
-                            </div>
-                        </div>
+        <section ref={sectionRef} id="about" className="section about-section">
+            <div className="container about-container">
+                <div className="about-left">
+                    <div className="about-me-badge">
+                        <svg className="about-pawn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M12 2a3 3 0 0 1 3 3c0 .87-.37 1.66-1 2.2V9h2a2 2 0 0 1 2 2v2H6v-2a2 2 0 0 1 2-2h2V7.2c-.63-.54-1-1.33-1-2.2a3 3 0 0 1 3-3z" />
+                            <path d="M19 17v2a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-2h14z" />
+                            <path d="M4 21h16v1H4z" />
+                        </svg>
+                        <span className="about-badge-text">ABOUT ME</span>
                     </div>
 
-                    <div className="about-image">
-                        <div className="image-frame">
-                            <div className="frame-border"></div>
-                            <img
-                                src="/profile.png"
-                                alt="Aswani Portrait"
-                                className="profile-img"
-                            />
+                    <h2 className="about-heading">
+                        The <span className="text-serif-gold">Mind</span> Behind<br />
+                        The <span className="text-serif-gold">Strategy</span>
+                    </h2>
+
+                    <div className="about-tagline-wrap">
+                        <p className="about-tagline">
+                            I'm an AI & Data Science Engineer passionate about building intelligent systems, solving real-world problems, and transforming ideas into impactful, scalable solutions.
+                        </p>
+                    </div>
+
+                    <div className="about-cards-grid">
+                        {[
+                            { icon: <Brain size={32} />, title: "AI & Machine Learning", desc: "Building smart models that learn and adapt." },
+                            { icon: <BarChart3 size={32} />, title: "Data Science & Analytics", desc: "Turning data into insights that drive better decisions." },
+                            { icon: <Lightbulb size={32} />, title: "Problem Solving & Innovation", desc: "Solving complex challenges with creativity and cutting-edge technology." }
+                        ].map((card, index) => (
+                            <div key={index} className="about-card-item">
+                                <div className="card-icon-wrap">
+                                    <div className="card-icon-gold">
+                                        {card.icon}
+                                    </div>
+                                </div>
+                                <h3>{card.title}</h3>
+                                <p>{card.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="about-right">
+                    <div ref={profileRef} className="profile-container-card">
+                        {/* Top right decorative dots */}
+                        <div className="profile-dots">•••</div>
+
+                        {/* Gold King chess background decoration */}
+                        <div className="profile-king-bg" />
+
+                        {/* Profile Image */}
+                        <img 
+                            src="/aswani-profile.png" 
+                            alt="Aswani C" 
+                            className="profile-display-img" 
+                        />
+
+                        {/* Bottom Floating Badge */}
+                        <div className="profile-bottom-badge">
+                            <div className="badge-chip-icon">
+                                <Cpu size={20} className="chip-icon-gold" />
+                            </div>
+                            <div className="badge-text-wrap">
+                                <h4>AI & Data Science Engineer</h4>
+                                <p>Building the future, one algorithm at a time.</p>
+                            </div>
                         </div>
                     </div>
                 </div>

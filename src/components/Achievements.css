@@ -1,83 +1,391 @@
-.achievements-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+.achievements-section-modern {
+    position: relative;
+    overflow: hidden;
+    padding: 6rem 0 !important;
+    background-image: 
+        linear-gradient(to right, rgba(6, 7, 10, 0.9) 0%, rgba(6, 7, 10, 0.7) 50%, rgba(6, 7, 10, 0.3) 100%),
+        url('/images/award-bg.png') !important;
+    background-size: cover !important;
+    background-position: center center !important;
 }
 
-.grid-span-2 {
-    grid-column: span 2;
+/* Background overlay checkerboard grids */
+.chessboard-grid-depth {
+    display: none;
 }
 
-.panel-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.panel-title-inline {
-    font-size: 1.5rem;
-    color: var(--text-main);
-    margin: 0;
-}
-
-.bullet-list {
+/* Header Centered Layout */
+.achievements-header-centered {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
-}
-
-.bullet-list li {
+    align-items: center;
+    text-align: center;
     position: relative;
-    padding-left: 1.5rem;
+    z-index: 5;
+    margin-bottom: 1.2rem !important;
+    width: 100%;
+}
+
+.achievements-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    width: 100%;
+    max-width: 320px;
+    margin-bottom: 0.15rem !important;
+}
+
+.achieve-badge-line {
+    flex-grow: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+}
+
+.achieve-badge-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.achieve-badge-icon {
+    font-size: 0.8rem;
+}
+
+.achieve-badge-text {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    font-weight: 700;
+    color: var(--accent-gold);
+}
+
+.achievements-main-title {
+    font-size: 1.8rem !important;
+    margin: 0.1rem 0 !important;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.achievements-subtitle-lead {
+    font-size: 0.8rem !important;
     color: var(--text-muted);
-    font-size: 1rem;
-    line-height: 1.5;
+    max-width: 450px;
+    line-height: 1.35;
+    margin-bottom: 0.5rem !important;
 }
 
-.bullet-list li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 8px;
-    width: 8px;
-    height: 8px;
-    background-color: var(--accent-primary);
-    border-radius: 50%;
+.achieve-decor-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    width: 120px;
+    margin-bottom: 0.8rem !important;
 }
 
-.bullet-list strong {
+.achieve-decor-line {
+    flex-grow: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-gold-dark), transparent);
+}
+
+.achieve-pawn-decor {
+    color: var(--accent-gold);
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+/* Stats Row */
+.achievements-counters-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem !important;
+    width: 100%;
+    max-width: 780px;
+}
+
+.achieve-stat-card {
+    background: rgba(14, 17, 24, 0.55);
+    border-radius: var(--radius-sm);
+    padding: 0.35rem 0.5rem !important;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: var(--transition);
+}
+
+.achieve-stat-card:hover {
+    transform: translateY(-2px);
+    background: rgba(20, 25, 35, 0.75);
+    border-color: rgba(204, 164, 59, 0.3);
+}
+
+.achieve-stat-icon-wrapper {
+    background: rgba(204, 164, 59, 0.05);
+    border: 1px solid rgba(204, 164, 59, 0.15);
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-gold-light);
+    flex-shrink: 0;
+}
+
+.achieve-stat-icon-wrapper svg {
+    width: 13px !important;
+    height: 13px !important;
+}
+
+.achieve-stat-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.achieve-stat-number {
+    font-size: 0.85rem !important;
+    font-weight: 800;
     color: var(--text-main);
+    line-height: 1.1;
+}
+
+.achieve-stat-label {
+    font-size: 0.52rem !important;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-top: 0.1rem;
+    white-space: nowrap;
+}
+
+/* Recognitions Row Divider */
+.my-recognitions-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 0.8rem !important;
+    position: relative;
+    z-index: 5;
+}
+
+.divider-trim {
+    flex-grow: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(204, 164, 59, 0.25), transparent);
+}
+
+.divider-label {
+    font-size: 0.72rem !important;
+    color: var(--accent-gold-light);
+    letter-spacing: 0.25em;
+    font-weight: 700;
+}
+
+/* 4-Column Grid for Recognitions Cards */
+.recognitions-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem !important;
+    position: relative;
+    z-index: 5;
+    margin-bottom: 1rem !important;
+}
+
+.recognition-card {
+    background-color: rgba(10, 12, 18, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: var(--radius-md);
+    padding: 0.8rem 0.75rem !important;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+}
+
+.recognition-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.65), 0 0 12px var(--accent-gold-glow);
+    background-color: rgba(14, 17, 24, 0.85);
+}
+
+/* Circle Icon badge */
+.recognition-icon-circle {
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.4rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+}
+
+.recognition-icon-circle svg {
+    width: 13px !important;
+    height: 13px !important;
+}
+
+.recognition-card:hover .recognition-icon-circle {
+    transform: scale(1.05) rotate(5deg);
+    border-color: var(--accent-theme);
+}
+
+.recognition-texts {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.recognition-title {
+    font-family: var(--font-heading);
+    font-size: 0.8rem !important;
+    font-weight: 700;
+    margin-bottom: 0.15rem !important;
+    letter-spacing: 0.02em;
+}
+
+.recognition-subtitle {
+    font-size: 0.68rem !important;
+    color: var(--text-main);
+    font-weight: 600;
+    margin-bottom: 0.25rem !important;
+}
+
+.recognition-desc {
+    color: var(--text-muted);
+    font-size: 0.66rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 0.6rem !important;
+}
+
+/* Date calendar badge */
+.recognition-date-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem !important;
+    font-size: 0.58rem !important;
+    color: var(--accent-gold-light);
+    border: 1px solid rgba(204, 164, 59, 0.2);
+    background-color: rgba(204, 164, 59, 0.03);
+    padding: 0.15rem 0.4rem !important;
+    border-radius: var(--radius-sm);
+    margin-top: auto;
+}
+
+.calendar-icon {
+    opacity: 0.8;
+}
+
+/* Bottom Quote Banner */
+.achievements-quote-footer {
+    background: rgba(10, 12, 18, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: var(--radius-md);
+    padding: 0.8rem 1.4rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    z-index: 5;
+}
+
+.achieve-quote-symbol {
+    color: var(--accent-gold);
+    font-family: var(--font-heading);
+    font-size: 1.8rem !important;
+    line-height: 1;
+    height: 0.6rem !important;
+    margin-right: 0.6rem !important;
+    opacity: 0.35;
+    flex-shrink: 0;
+}
+
+.achieve-quote-paragraph {
+    font-size: 0.78rem !important;
+    color: var(--text-main);
+    line-height: 1.35 !important;
+    font-style: italic;
+    font-family: var(--font-sans);
+    max-width: 650px;
+    z-index: 2;
+}
+
+.highlight-strategy {
+    color: var(--accent-gold);
     font-weight: 600;
 }
 
-.extracurricular-content h4 {
-    font-size: 1.2rem;
-    color: var(--text-main);
+.highlight-excellence {
+    color: var(--accent-gold-light);
+    font-weight: 600;
 }
 
-.mt-2 {
-    margin-top: 0.5rem;
+.achieve-knight-watermark {
+    position: absolute;
+    bottom: -5px;
+    right: 15px;
+    pointer-events: none;
+    z-index: 1;
 }
 
-.mt-4 {
-    margin-top: 1rem;
+.achieve-knight-watermark svg {
+    width: 32px !important;
+    height: 38px !important;
 }
 
-.language-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
+/* Responsive Breakpoints */
+@media (max-width: 1200px) {
+    .recognitions-grid-modern {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-@media (max-width: 968px) {
-    .achievements-grid {
+@media (max-width: 900px) {
+    .achievements-badge-row {
+        justify-content: center;
+    }
+
+    .achievements-main-title {
+        font-size: 1.6rem !important;
+    }
+
+    .achievements-counters-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .achievements-section-modern {
+        padding: 1.2rem 0 !important;
+    }
+
+    .achievements-counters-grid {
+        grid-template-columns: 1fr;
+        max-width: 250px;
+    }
+
+    .recognitions-grid-modern {
         grid-template-columns: 1fr;
     }
 
-    .grid-span-2 {
-        grid-column: span 1;
+    .achievements-quote-footer {
+        padding: 1rem 0.8rem !important;
+    }
+
+    .achieve-quote-paragraph {
+        font-size: 0.75rem !important;
     }
 }

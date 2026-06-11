@@ -12,6 +12,56 @@
     <meta name="author" content="Aswani C" />
   </head>
   <body>
+    <!-- Global Error Overlay to capture and display runtime errors -->
+    <script>
+      window.addEventListener('error', function(event) {
+        var errorOverlay = document.getElementById('error-overlay-container');
+        if (!errorOverlay) {
+          errorOverlay = document.createElement('div');
+          errorOverlay.id = 'error-overlay-container';
+          errorOverlay.style.position = 'fixed';
+          errorOverlay.style.top = '0';
+          errorOverlay.style.left = '0';
+          errorOverlay.style.width = '100%';
+          errorOverlay.style.height = '100%';
+          errorOverlay.style.backgroundColor = '#1a0505';
+          errorOverlay.style.color = '#ff6b6b';
+          errorOverlay.style.padding = '20px';
+          errorOverlay.style.fontFamily = 'monospace';
+          errorOverlay.style.zIndex = '999999';
+          errorOverlay.style.overflow = 'auto';
+          document.body.appendChild(errorOverlay);
+        }
+        errorOverlay.innerHTML = '<h2>Uncaught Runtime Error:</h2>' +
+          '<pre style="white-space: pre-wrap; font-size: 14px;">' +
+          event.message + '\n\nFile: ' + event.filename + '\nLine: ' + event.lineno + ':' + event.colno +
+          '\n\nStack:\n' + (event.error ? event.error.stack : 'No stack trace available') +
+          '</pre>';
+      });
+      window.addEventListener('unhandledrejection', function(event) {
+        var errorOverlay = document.getElementById('error-overlay-container');
+        if (!errorOverlay) {
+          errorOverlay = document.createElement('div');
+          errorOverlay.id = 'error-overlay-container';
+          errorOverlay.style.position = 'fixed';
+          errorOverlay.style.top = '0';
+          errorOverlay.style.left = '0';
+          errorOverlay.style.width = '100%';
+          errorOverlay.style.height = '100%';
+          errorOverlay.style.backgroundColor = '#1a0505';
+          errorOverlay.style.color = '#ff6b6b';
+          errorOverlay.style.padding = '20px';
+          errorOverlay.style.fontFamily = 'monospace';
+          errorOverlay.style.zIndex = '999999';
+          errorOverlay.style.overflow = 'auto';
+          document.body.appendChild(errorOverlay);
+        }
+        errorOverlay.innerHTML = '<h2>Unhandled Promise Rejection:</h2>' +
+          '<pre style="white-space: pre-wrap; font-size: 14px;">' +
+          event.reason + '\n\nStack:\n' + (event.reason && event.reason.stack ? event.reason.stack : 'No stack trace available') +
+          '</pre>';
+      });
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

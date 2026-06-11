@@ -1,0 +1,261 @@
+.social-footer {
+    position: relative;
+    padding: 8rem 0 4rem;
+    background: linear-gradient(180deg, #0a0a0a 0%, #050814 100%);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Chessboard Grid Pattern */
+.social-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* Giant Transparent King Watermark */
+.king-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 60vw;
+    color: rgba(204, 164, 59, 0.015);
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+    line-height: 1;
+}
+
+/* Connecting Canvas/Lines */
+.social-lines-bg {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(204, 164, 59, 0.1) 20%, rgba(204, 164, 59, 0.3) 50%, rgba(204, 164, 59, 0.1) 80%, transparent 100%);
+    z-index: 1;
+    transform: translateY(-50%);
+    filter: blur(1px);
+}
+
+.social-footer-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Top Availability Badge */
+.availability-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent-gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 4rem;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid rgba(204, 164, 59, 0.3);
+    border-radius: 50px;
+    background: rgba(20, 15, 5, 0.4);
+    backdrop-filter: blur(5px);
+}
+
+.dot-pulse {
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-gold);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent-gold);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(204, 164, 59, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(204, 164, 59, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(204, 164, 59, 0); }
+}
+
+/* Social Icons Row */
+.social-icons-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+    position: relative;
+    z-index: 3;
+}
+
+.social-icon-wrapper {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--text-muted);
+    background: rgba(15, 15, 20, 0.6);
+    border: 1px solid rgba(204, 164, 59, 0.3);
+    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: floatUpDown 4s ease-in-out infinite alternate;
+}
+
+.social-icon-wrapper svg {
+    width: 24px;
+    height: 24px;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.social-icon-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(204, 164, 59, 0.2) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+}
+
+/* Hover Effects */
+.social-icon-wrapper:hover {
+    transform: translateY(-5px) scale(1.15) !important;
+    color: #fff;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 20px rgba(204, 164, 59, 0.4), inset 0 0 10px rgba(204, 164, 59, 0.2);
+    z-index: 10;
+}
+
+.social-icon-wrapper:hover::before {
+    opacity: 1;
+}
+
+.social-icon-wrapper:hover svg {
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+}
+
+/* Floating Animation */
+@keyframes floatUpDown {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-15px); }
+}
+
+/* Typography Below Icons */
+.next-move-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    color: #fff;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.next-move-subtitle {
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 4rem;
+    font-style: italic;
+    line-height: 1.6;
+}
+
+/* Bottom Footer Info */
+.footer-bottom {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-mastery-quote {
+    font-family: var(--font-heading);
+    color: var(--accent-gold);
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+}
+
+.footer-copyright {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+.footer-title {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    color: #fff;
+    opacity: 0.5;
+}
+
+/* Particle Effects */
+.particle {
+    position: absolute;
+    background: var(--accent-gold);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    20% { opacity: 0.6; }
+    80% { opacity: 0.6; }
+    100% { transform: translateY(-100px) scale(0); opacity: 0; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .social-icons-row {
+        gap: 1rem;
+    }
+    
+    .social-icon-wrapper {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .social-icon-wrapper svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .social-lines-bg {
+        display: none; /* Too cluttered on mobile */
+    }
+}
