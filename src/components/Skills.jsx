@@ -1,5 +1,6 @@
 import React from 'react';
 import { Cpu, Terminal, Compass, ShieldAlert, Award, Database } from 'lucide-react';
+import TextType from './TextType';
 import './Skills.css';
 
 const Skills = () => {
@@ -49,7 +50,19 @@ const Skills = () => {
                     <span className="badge-move">CALCULATIONS</span>
                     <span className="badge-code">AI EXPERTISE</span>
                 </div>
-                <h2 className="section-title">THE <span>CALCULATIONS</span></h2>
+                <h2 className="section-title" style={{ minHeight: '80px', display: 'block' }}>
+                    <TextType 
+                        text={["THE CALCULATIONS", "AI ENGINE METRICS", "MATHEMATICAL LAYERS"]} 
+                        as="span"
+                        typingSpeed={60}
+                        deletingSpeed={35}
+                        pauseDuration={2500}
+                        loop={true}
+                        showCursor={true}
+                        cursorCharacter="|"
+                        textColors={["#f3f4f6", "var(--accent-gold)"]}
+                    />
+                </h2>
                 <p className="section-subtitle">Deep intelligence layers and mathematical calculations</p>
 
                 <div className="skills-grid">
