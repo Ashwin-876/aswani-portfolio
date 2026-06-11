@@ -1,4 +1,5 @@
 import React from 'react';
+import TextType from './TextType';
 import './Arsenal.css';
 import LogoLoop from './LogoLoop';
 
@@ -378,7 +379,19 @@ const Arsenal = () => {
                             <div className="badge-line"></div>
                         </div>
 
-                        <h2 className="tech-section-title">MY <span>TECH STACK</span></h2>
+                        <h2 className="tech-section-title" style={{ minHeight: '80px', display: 'block' }}>
+                            <TextType 
+                                text={["MY TECH STACK", "AI FRAMEWORKS & LOGIC", "DATA SCIENCE TOOLKITS"]} 
+                                as="span"
+                                typingSpeed={60}
+                                deletingSpeed={35}
+                                pauseDuration={2500}
+                                loop={true}
+                                showCursor={true}
+                                cursorCharacter="|"
+                                textColors={["#f3f4f6", "var(--accent-gold)"]}
+                            />
+                        </h2>
                         <p className="tech-section-subtitle">
                             The tools and technologies I use to build intelligent, scalable and efficient solutions.
                         </p>
