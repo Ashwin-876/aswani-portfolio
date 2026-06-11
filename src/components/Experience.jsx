@@ -226,97 +226,9 @@ const Experience = () => {
 
     // Hook 2: GSAP ScrollTrigger Configurations (Responsive & Optimized)
     useEffect(() => {
-        let mm = gsap.matchMedia();
-
-        mm.add("(min-width: 768px)", () => {
-            // Desktop-only parallax background chess pieces animation
-            gsap.to(".parallax-knight", {
-                y: -80,
-                rotate: 5,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-
-            gsap.to(".parallax-rook", {
-                y: 90,
-                rotate: -8,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-
-            gsap.to(".parallax-queen", {
-                y: -50,
-                rotate: 3,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-
-            // Desktop 3D milestone rotations
-            const items = gsap.utils.toArray(".timeline-milestone-item");
-            items.forEach((item, idx) => {
-                const isLeft = idx % 2 === 0;
-                gsap.fromTo(item,
-                    {
-                        opacity: 0,
-                        x: isLeft ? -100 : 100,
-                        rotateY: isLeft ? -15 : 15,
-                        scale: 0.96
-                    },
-                    {
-                        opacity: 1,
-                        x: 0,
-                        rotateY: 0,
-                        scale: 1,
-                        duration: 1.1,
-                        ease: "power3.out",
-                        scrollTrigger: {
-                            trigger: item,
-                            start: "top 85%",
-                            toggleActions: "play none none none"
-                        }
-                    }
-                );
-            });
-        });
-
-        mm.add("(max-width: 767px)", () => {
-            // Mobile-optimized simple reveals (no heavy 3D transforms, no side shifts)
-            const items = gsap.utils.toArray(".timeline-milestone-item");
-            items.forEach((item) => {
-                gsap.fromTo(item,
-                    { opacity: 0, y: 30 },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.8,
-                        ease: "power2.out",
-                        scrollTrigger: {
-                            trigger: item,
-                            start: "top 90%",
-                            toggleActions: "play none none none"
-                        }
-                    }
-                );
-            });
-        });
-
-        mm.add("all", () => {
-            // Animations active on all viewport sizes
+        let gsapCtx = gsap.context(() => {
+            // 1. General animations (active on all screens)
+            
             // Timeline path drawing animation on scroll
             gsap.fromTo(".timeline-line-progress",
                 { scaleY: 0, transformOrigin: "top center" },
@@ -388,9 +300,99 @@ const Experience = () => {
                     }
                 }
             );
-        });
 
-        return () => mm.revert();
+            // 2. Media query specific animations
+            let mm = gsap.matchMedia();
+
+            mm.add("(min-width: 768px)", () => {
+                // Desktop-only parallax background chess pieces animation
+                gsap.to(".parallax-knight", {
+                    y: -80,
+                    rotate: 5,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+
+                gsap.to(".parallax-rook", {
+                    y: 90,
+                    rotate: -8,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+
+                gsap.to(".parallax-queen", {
+                    y: -50,
+                    rotate: 3,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+
+                // Desktop 3D milestone rotations
+                const itemsList = gsap.utils.toArray(".timeline-milestone-item");
+                itemsList.forEach((item, idx) => {
+                    const isLeft = idx % 2 === 0;
+                    gsap.fromTo(item,
+                        {
+                            opacity: 0,
+                            x: isLeft ? -100 : 100,
+                            rotateY: isLeft ? -15 : 15,
+                            scale: 0.96
+                        },
+                        {
+                            opacity: 1,
+                            x: 0,
+                            rotateY: 0,
+                            scale: 1,
+                            duration: 1.1,
+                            ease: "power3.out",
+                            scrollTrigger: {
+                                trigger: item,
+                                start: "top 85%",
+                                toggleActions: "play none none none"
+                            }
+                        }
+                    );
+                });
+            });
+
+            mm.add("(max-width: 767px)", () => {
+                // Mobile-optimized simple reveals (no heavy 3D transforms, no side shifts)
+                const itemsList = gsap.utils.toArray(".timeline-milestone-item");
+                itemsList.forEach((item) => {
+                    gsap.fromTo(item,
+                        { opacity: 0, y: 30 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            ease: "power2.out",
+                            scrollTrigger: {
+                                trigger: item,
+                                start: "top 90%",
+                                toggleActions: "play none none none"
+                            }
+                        }
+                    );
+                });
+            });
+        }, sectionRef);
+
+        return () => gsapCtx.revert();
     }, []);
 
     return (

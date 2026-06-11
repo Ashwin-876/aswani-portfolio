@@ -164,12 +164,18 @@ const Hero = () => {
     const introTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
     introTimeline.fromTo('.hero-hud-corner', { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, stagger: 0.05 }, 0.2);
 
+    // Refresh ScrollTrigger after a short delay once Hero is loaded and fully drawn
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 200);
+
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       scrollTriggerObj.kill();
       fadeTimeline.scrollTrigger?.kill();
       fadeTimeline.kill();
       introTimeline.kill();
+      clearTimeout(timer);
     };
   }, [loading]);
 

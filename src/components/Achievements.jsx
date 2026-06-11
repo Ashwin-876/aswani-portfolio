@@ -247,79 +247,9 @@ const Achievements = () => {
 
     // Hook 2: GSAP ScrollTrigger Configurations (Responsive & Optimized)
     useEffect(() => {
-        let mm = gsap.matchMedia();
-
-        mm.add("(min-width: 768px)", () => {
-            // Desktop-only parallax scroll for background chess vectors
-            gsap.to(".hall-queen", {
-                y: -50,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#achievements",
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-            gsap.to(".hall-knight", {
-                y: 65,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#achievements",
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-
-            // Desktop 3D staggered reveal of cards
-            const cards = gsap.utils.toArray(".recognition-card");
-            gsap.fromTo(cards,
-                {
-                    opacity: 0,
-                    y: 40,
-                    scale: 0.95,
-                    rotateY: 10
-                },
-                {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    rotateY: 0,
-                    duration: 1.0,
-                    stagger: 0.08,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: ".recognitions-grid-modern",
-                        start: "top 80%",
-                        toggleActions: "play none none none"
-                    }
-                }
-            );
-        });
-
-        mm.add("(max-width: 767px)", () => {
-            // Mobile-optimized simple reveals
-            const cards = gsap.utils.toArray(".recognition-card");
-            gsap.fromTo(cards,
-                { opacity: 0, y: 30 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.7,
-                    stagger: 0.06,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: ".recognitions-grid-modern",
-                        start: "top 85%",
-                        toggleActions: "play none none none"
-                    }
-                }
-            );
-        });
-
-        mm.add("all", () => {
-            // Animations active on all viewport sizes
+        let gsapCtx = gsap.context(() => {
+            // 1. General animations (active on all screens)
+            
             // Animate counters row cards
             const statCards = gsap.utils.toArray(".achieve-stat-card");
             gsap.fromTo(statCards,
@@ -358,9 +288,81 @@ const Achievements = () => {
                     }
                 );
             });
-        });
 
-        return () => mm.revert();
+            // 2. Media query specific animations
+            let mm = gsap.matchMedia();
+
+            mm.add("(min-width: 768px)", () => {
+                // Desktop-only parallax scroll for background chess vectors
+                gsap.to(".hall-queen", {
+                    y: -50,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#achievements",
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+                gsap.to(".hall-knight", {
+                    y: 65,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#achievements",
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+
+                // Desktop 3D staggered reveal of cards
+                const cards = gsap.utils.toArray(".recognition-card");
+                gsap.fromTo(cards,
+                    {
+                        opacity: 0,
+                        y: 40,
+                        scale: 0.95,
+                        rotateY: 10
+                    },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        rotateY: 0,
+                        duration: 1.0,
+                        stagger: 0.08,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: ".recognitions-grid-modern",
+                            start: "top 80%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+
+            mm.add("(max-width: 767px)", () => {
+                // Mobile-optimized simple reveals
+                const cards = gsap.utils.toArray(".recognition-card");
+                gsap.fromTo(cards,
+                    { opacity: 0, y: 30 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.7,
+                        stagger: 0.06,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: ".recognitions-grid-modern",
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+        }, sectionRef);
+
+        return () => gsapCtx.revert();
     }, []);
 
     return (

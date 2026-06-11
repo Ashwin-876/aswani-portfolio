@@ -29,13 +29,6 @@ function App() {
       touchMultiplier: 1.5,
     });
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
     lenis.on('scroll', ScrollTrigger.update);
 
     gsap.ticker.add((time) => {
@@ -44,8 +37,20 @@ function App() {
 
     gsap.ticker.lagSmoothing(0);
 
+    // Initial ScrollTrigger refresh after a small delay to ensure page layout is settled
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
+
+    const handleLoad = () => {
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener('load', handleLoad);
+
     return () => {
       lenis.destroy();
+      clearTimeout(timer);
+      window.removeEventListener('load', handleLoad);
     };
   }, []);
 

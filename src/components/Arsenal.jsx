@@ -476,89 +476,9 @@ const Arsenal = () => {
 
     // Hook 2: GSAP ScrollTrigger Configurations (Responsive & Optimized)
     useEffect(() => {
-        let mm = gsap.matchMedia();
-
-        mm.add("(min-width: 768px)", () => {
-            // Desktop-only parallax translation for background chess pieces
-            gsap.to(".stack-knight", {
-                y: -90,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#arsenal",
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-            gsap.to(".stack-rook", {
-                y: 70,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#arsenal",
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-            gsap.to(".stack-bishop", {
-                y: -50,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#arsenal",
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-
-            // Desktop 3D staggered reveal of tech category cards
-            const cards = gsap.utils.toArray(".arsenal-category-card");
-            gsap.fromTo(cards,
-                {
-                    opacity: 0,
-                    y: 40,
-                    rotateX: 10,
-                    scale: 0.97
-                },
-                {
-                    opacity: 1,
-                    y: 0,
-                    rotateX: 0,
-                    scale: 1,
-                    duration: 1.0,
-                    stagger: 0.08,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: ".arsenal-grid-modern",
-                        start: "top 80%",
-                        toggleActions: "play none none none"
-                    }
-                }
-            );
-        });
-
-        mm.add("(max-width: 767px)", () => {
-            // Mobile-optimized simple category reveals
-            const cards = gsap.utils.toArray(".arsenal-category-card");
-            gsap.fromTo(cards,
-                { opacity: 0, y: 30 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.7,
-                    stagger: 0.06,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: ".arsenal-grid-modern",
-                        start: "top 85%",
-                        toggleActions: "play none none none"
-                    }
-                }
-            );
-        });
-
-        mm.add("all", () => {
-            // Animations active on all viewport sizes
+        let gsapCtx = gsap.context(() => {
+            // 1. General animations (active on all screens)
+            
             // Animate Telemetry counter card entries
             const statCards = gsap.utils.toArray(".telemetry-stat-card");
             gsap.fromTo(statCards,
@@ -597,9 +517,91 @@ const Arsenal = () => {
                     }
                 );
             });
-        });
 
-        return () => mm.revert();
+            // 2. Media query specific animations
+            let mm = gsap.matchMedia();
+
+            mm.add("(min-width: 768px)", () => {
+                // Desktop-only parallax translation for background chess pieces
+                gsap.to(".stack-knight", {
+                    y: -90,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#arsenal",
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+                gsap.to(".stack-rook", {
+                    y: 70,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#arsenal",
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+                gsap.to(".stack-bishop", {
+                    y: -50,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#arsenal",
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+
+                // Desktop 3D staggered reveal of tech category cards
+                const cards = gsap.utils.toArray(".arsenal-category-card");
+                gsap.fromTo(cards,
+                    {
+                        opacity: 0,
+                        y: 40,
+                        rotateX: 10,
+                        scale: 0.97
+                    },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        rotateX: 0,
+                        scale: 1,
+                        duration: 1.0,
+                        stagger: 0.08,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: ".arsenal-grid-modern",
+                            start: "top 80%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+
+            mm.add("(max-width: 767px)", () => {
+                // Mobile-optimized simple category reveals
+                const cards = gsap.utils.toArray(".arsenal-category-card");
+                gsap.fromTo(cards,
+                    { opacity: 0, y: 30 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.7,
+                        stagger: 0.06,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: ".arsenal-grid-modern",
+                            start: "top 85%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+        }, sectionRef);
+
+        return () => gsapCtx.revert();
     }, []);
 
     return (
