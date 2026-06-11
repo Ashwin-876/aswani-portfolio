@@ -1,0 +1,21 @@
+.text-type {
+  display: inline-block;
+  position: relative;
+}
+
+.text-type__content {
+  display: inline;
+}
+
+.text-type__cursor {
+  display: inline-block;
+  font-weight: 200;
+  margin-left: 4px;
+  color: var(--accent-gold);
+  transition: opacity 0.1s ease;
+}
+
+.text-type__cursor--hidden {
+  visibility: hidden;
+  opacity: 0;
+}

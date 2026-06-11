@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Brain, BarChart3, Lightbulb, Cpu } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import TextType from './TextType';
 import './About.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -74,9 +75,18 @@ const About = () => {
                         <span className="about-badge-text">ABOUT ME</span>
                     </div>
 
-                    <h2 className="about-heading">
-                        The <span className="text-serif-gold">Mind</span> Behind<br />
-                        The <span className="text-serif-gold">Strategy</span>
+                    <h2 className="about-heading" style={{ minHeight: '120px', display: 'block' }}>
+                        <TextType 
+                            text={["The Mind Behind The Strategy", "AI & Data Science Architect", "Building Intelligent Systems"]} 
+                            as="span"
+                            typingSpeed={60}
+                            deletingSpeed={35}
+                            pauseDuration={2500}
+                            loop={true}
+                            showCursor={true}
+                            cursorCharacter="|"
+                            textColors={["var(--accent-gold)", "#f3f4f6"]}
+                        />
                     </h2>
 
                     <div className="about-tagline-wrap">
