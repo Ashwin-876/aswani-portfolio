@@ -82,7 +82,8 @@ const TextType = ({
 
     let timeout;
     const currentText = textArray[currentTextIndex];
-    const processedText = reverseMode ? currentText.split('').reverse().join('') : currentText;
+    const cleanText = currentText ? currentText.replace('|', '') : '';
+    const processedText = reverseMode ? cleanText.split('').reverse().join('') : cleanText;
 
     const executeTypingAnimation = () => {
       if (isDeleting) {
@@ -147,8 +148,30 @@ const TextType = ({
     onSentenceComplete
   ]);
 
+  const currentCleanText = textArray[currentTextIndex] ? textArray[currentTextIndex].replace('|', '') : '';
   const shouldHideCursor =
-    hideCursorWhileTyping && (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
+    hideCursorWhileTyping && (currentCharIndex < currentCleanText.length || isDeleting);
+
+  const renderTypedContent = () => {
+    const currentText = textArray[currentTextIndex];
+    if (currentText && currentText.includes('|')) {
+      const parts = currentText.split('|');
+      const part1Limit = parts[0].length;
+      const typedPart1 = displayedText.slice(0, part1Limit);
+      const typedPart2 = displayedText.slice(part1Limit);
+      return (
+        <span className="text-type__content">
+          <span style={{ color: textColors[0] || 'inherit' }}>{typedPart1}</span>
+          <span style={{ color: textColors[1] || 'inherit' }}>{typedPart2}</span>
+        </span>
+      );
+    }
+    return (
+      <span className="text-type__content" style={{ color: getCurrentTextColor() || 'inherit' }}>
+        {displayedText}
+      </span>
+    );
+  };
 
   return createElement(
     Component,
@@ -157,9 +180,7 @@ const TextType = ({
       className: `text-type ${className}`,
       ...props
     },
-    <span className="text-type__content" style={{ color: getCurrentTextColor() || 'inherit' }}>
-      {displayedText}
-    </span>,
+    renderTypedContent(),
     showCursor && (
       <span
         ref={cursorRef}

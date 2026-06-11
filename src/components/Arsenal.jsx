@@ -381,7 +381,7 @@ const Arsenal = () => {
 
                         <h2 className="tech-section-title" style={{ minHeight: '80px', display: 'block' }}>
                             <TextType 
-                                text={["MY TECH STACK", "AI FRAMEWORKS & LOGIC", "DATA SCIENCE TOOLKITS"]} 
+                                text={["MY| TECH STACK", "AI| FRAMEWORKS & LOGIC", "DATA SCIENCE| TOOLKITS"]} 
                                 as="span"
                                 typingSpeed={60}
                                 deletingSpeed={35}

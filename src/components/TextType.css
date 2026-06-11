@@ -7,6 +7,14 @@
   display: inline;
 }
 
+/* Override background gradient fills on headers to let custom inline colors display */
+.text-type__content,
+.text-type__content span {
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  -webkit-background-clip: initial !important;
+}
+
 .text-type__cursor {
   display: inline-block;
   font-weight: 200;

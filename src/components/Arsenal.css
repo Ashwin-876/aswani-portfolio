@@ -72,10 +72,10 @@
 .stack-badge-container {
     display: flex;
     align-items: center;
-    gap: 1.2rem;
+    gap: 1.5rem;
     width: 100%;
-    max-width: 500px;
-    margin-bottom: 0.15rem !important;
+    max-width: 800px;
+    margin-bottom: 0.8rem !important;
     margin-left: auto;
     margin-right: auto;
 }
@@ -83,13 +83,13 @@
 .badge-line {
     flex-grow: 1;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    background: rgba(204, 164, 59, 0.35);
 }
 
 .stack-badge-inner {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
 }
 
 .stack-isometric-icon {
@@ -97,26 +97,27 @@
 }
 
 .stack-badge-title {
-    font-size: 0.8rem;
-    letter-spacing: 0.35em;
+    font-size: 0.85rem;
+    letter-spacing: 0.45em;
     font-weight: 700;
     color: var(--accent-gold);
-    font-family: var(--font-sans);
+    font-family: var(--font-heading);
 }
 
 .tech-section-title {
-    font-size: 1.8rem !important;
-    margin: 0.1rem 0 !important;
+    font-size: 2.6rem !important;
+    margin: 0.4rem 0 !important;
     font-weight: 900;
     letter-spacing: 0.05em;
     text-align: center;
+    font-family: var(--font-heading) !important;
 }
 
 .tech-section-title span {
-    color: var(--accent-gold);
-    background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: inherit;
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
 }
 
 .tech-section-subtitle {
@@ -354,7 +355,7 @@
     }
 
     .tech-section-title {
-        font-size: 2.8rem;
+        font-size: 1.8rem !important;
     }
 
 
