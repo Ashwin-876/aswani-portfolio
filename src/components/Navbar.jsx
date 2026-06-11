@@ -17,7 +17,7 @@ const navLinks = [
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [soundEnabled, setSoundEnabled] = useState(true);
+    const [soundEnabled] = useState(true);
     const [activeSection, setActiveSection] = useState('home');
     const [scrollProgress, setScrollProgress] = useState(0);
 

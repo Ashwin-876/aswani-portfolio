@@ -89,14 +89,16 @@ const AIEngine = () => {
     }, []);
 
     // Watch for game state changes to trigger the next move
+    const gameFen = game.fen();
     useEffect(() => {
         if (engineRef.current && isEngineReady && !game.isGameOver()) {
             // Add a small artificial delay so the UI shows the previous move before instantly calculating the next
             timerRef.current = setTimeout(triggerEngine, 200);
         }
-    }, [game.fen(), isEngineReady]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [gameFen, isEngineReady]);
 
-    const triggerEngine = () => {
+    function triggerEngine() {
         const currentGame = gameRef.current;
 
         if (currentGame.isGameOver()) {
@@ -122,9 +124,9 @@ const AIEngine = () => {
         
         // Ask Stockfish to search for 1 second (1000ms)
         engineRef.current.postMessage('go movetime 1000');
-    };
+    }
 
-    const executeMove = (moveString) => {
+    function executeMove(moveString) {
         const nextGame = new Chess(gameRef.current.fen());
         
         // Parse UCI move string (e.g., 'e2e4' or 'e7e8q')
@@ -145,12 +147,12 @@ const AIEngine = () => {
             } else if (nextGame.isCheck()) {
                 setStatusText(`Check!`);
             }
-        } catch (err) {
+        } catch {
             console.error("Stockfish returned invalid move:", moveString);
         }
-    };
+    }
 
-    const resetGame = () => {
+    function resetGame() {
         const freshGame = new Chess();
         setGame(freshGame);
         setGameHistory([]);
@@ -166,7 +168,7 @@ const AIEngine = () => {
         
         // Let React state update before triggering
         timerRef.current = setTimeout(triggerEngine, 500);
-    };
+    }
 
     // Calculate percentage for evaluation meter (evalScore values usually range between -10 to +10)
     const getMeterPercentage = () => {

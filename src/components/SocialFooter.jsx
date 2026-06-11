@@ -136,8 +136,8 @@ const SocialFooter = () => {
 
         <div className="social-icons-row">
           {socialLinks.map((link, index) => {
-            // Calculate a random animation delay for organic floating
-            const floatDelay = (Math.random() * -4).toFixed(2);
+            // Calculate a deterministic animation delay for organic floating
+            const floatDelay = (((index * 1.37) % 4) * -1).toFixed(2);
             
             return (
               <a 

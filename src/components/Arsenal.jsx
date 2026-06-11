@@ -1,9 +1,44 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import TextType from './TextType';
 import './Arsenal.css';
 import LogoLoop from './LogoLoop';
 
-// A collection of clean, colored SVG icons for all tech stack items to ensure crisp rendering
+gsap.registerPlugin(ScrollTrigger);
+
+// Authentic vector paths for background parallax chess pieces in the stack section
+const ChessSVGs = {
+    knight: (
+        <svg viewBox="0 0 448 512" width="100%" height="100%" className="parallax-chess-piece-stack stack-knight" aria-hidden="true">
+            <path 
+                fill="currentColor" 
+                d="M96 48L82.7 61.3C70.7 73.3 64 89.5 64 106.5l0 132.4c0 10.7 5.3 20.7 14.2 26.6l10.6 7c14.3 9.6 32.7 10.7 48.1 3l3.2-1.6c2.6-1.3 5-2.8 7.3-4.5l49.4-37c6.6-5 15.7-5 22.3 0c10.2 7.7 9.9 23.1-.7 30.3L90.4 350C73.9 361.3 64 380 64 400l320 0c0-20 9.9-38.7 26.4-50L250.7 232.8c-10.6-7.2-10.9-22.6-.7-30.3c6.6-5 15.7-5 22.3 0l49.4 37c2.3 1.7 4.7 3.2 7.3 4.5l3.2 1.6c15.4 7.7 33.8 6.6 48.1-3l10.6-7c8.9-5.9 14.2-15.9 14.2-26.6V106.5c0-17-6.7-33.2-18.7-45.2L352 48l-256 0z" 
+                opacity="0.02"
+            />
+        </svg>
+    ),
+    rook: (
+        <svg viewBox="0 0 448 512" width="100%" height="100%" className="parallax-chess-piece-stack stack-rook" aria-hidden="true">
+            <path 
+                fill="currentColor" 
+                d="M416 320c0-20.2-12.5-37.4-30-44.5V208c17.5-7.1 30-24.3 30-44.5V80c0-8.8-7.2-16-16-16H368v32H320V64H272v32H224V64H176v32H128V64H80v32H48c-8.8 0-16 7.2-16 16v83.5c0 20.2 12.5 37.4 30 44.5v67.5c-17.5 7.1-30 24.3-30 44.5v48c0 26.5 21.5 48 48 48H368c26.5 0 48-21.5 48-48v-48z"
+                opacity="0.02"
+            />
+        </svg>
+    ),
+    bishop: (
+        <svg viewBox="0 0 320 512" width="100%" height="100%" className="parallax-chess-piece-stack stack-bishop" aria-hidden="true">
+            <path 
+                fill="currentColor" 
+                d="M160 0c17.7 0 32 14.3 32 32c0 9.8-4.4 18.6-11.5 24.6c28.6 15.6 48.2 46.2 48.2 81.4c0 30-14.3 56.6-36.6 73.1c11.9 14.7 18.8 33.1 18.8 53c0 24.1-10.2 45.7-26.6 61c12.2 17.8 19.3 39.2 19.3 62.3v18.6h25.4c14.7 0 26.6 11.9 26.6 26.6v34c0 14.7-11.9 26.6-26.6 26.6H58.6c-14.7 0-26.6-11.9-26.6-26.6v-34c0-14.7 11.9-26.6 26.6-26.6h25.4v-18.6c0-23.1 7.1-44.5 19.3-62.3C86.9 330.1 76.7 308.5 76.7 284.4c0-19.9 6.9-38.3 18.8-53C73.1 214.9 58.7 188.3 58.7 158c0-35.2 19.6-65.8 48.2-81.4C99.8 70.6 95.4 61.8 95.4 32c0-17.7 14.3-32 32-32h32.6z"
+                opacity="0.02"
+            />
+        </svg>
+    )
+};
+
+// Clean, colored SVG icons for tech stack items to ensure crisp rendering
 const TechIcons = {
     python: (
         <svg viewBox="0 0 24 24" width="32" height="32">
@@ -237,9 +272,12 @@ const allLogos = Object.entries(TechIcons).map(([key, icon]) => ({
 }));
 
 const Arsenal = () => {
+    const sectionRef = useRef(null);
+    const canvasRef = useRef(null);
+
     const techGroups = [
         {
-            title: "AI & MACHINE LEARNING",
+            title: "DIVISION I: TACTICAL COMPUTATION (AI & ML)",
             icon: "🧠",
             items: [
                 { name: "Python", icon: TechIcons.python },
@@ -250,7 +288,7 @@ const Arsenal = () => {
             ]
         },
         {
-            title: "DATA SCIENCE",
+            title: "DIVISION II: DECISION ENGINES (DATA SCIENCE)",
             icon: "📊",
             items: [
                 { name: "Pandas", icon: TechIcons.pandas },
@@ -261,7 +299,7 @@ const Arsenal = () => {
             ]
         },
         {
-            title: "PROGRAMMING LANGUAGES",
+            title: "DIVISION III: BOARD CODES & PIECES (LANGUAGES)",
             icon: "💻",
             items: [
                 { name: "Python", icon: TechIcons.python },
@@ -271,7 +309,7 @@ const Arsenal = () => {
             ]
         },
         {
-            title: "WEB DEVELOPMENT",
+            title: "DIVISION IV: POSITION CONTROL (WEB DEV)",
             icon: "🌐",
             items: [
                 { name: "React", icon: TechIcons.react },
@@ -282,7 +320,7 @@ const Arsenal = () => {
             ]
         },
         {
-            title: "DATABASES",
+            title: "DIVISION V: ARCHIVAL VAULTS (DATABASES)",
             icon: "🗄️",
             items: [
                 { name: "MongoDB", icon: TechIcons.mongodb },
@@ -292,7 +330,7 @@ const Arsenal = () => {
             ]
         },
         {
-            title: "CLOUD & DEVOPS",
+            title: "DIVISION VI: FORTRESS & LOGISTICS (CLOUD & DEVOPS)",
             icon: "☁️",
             items: [
                 { name: "AWS", icon: TechIcons.aws },
@@ -303,7 +341,7 @@ const Arsenal = () => {
             ]
         },
         {
-            title: "TOOLS & OTHERS",
+            title: "DIVISION VII: AUXILIARY TOOLKITS",
             icon: "⚙️",
             isDoubleWidth: true,
             items: [
@@ -318,22 +356,209 @@ const Arsenal = () => {
         }
     ];
 
-
-
-    const notations = [
-      "[person: 96%]",
-      "[car: 93%]",
-      "[traffic_light: 90%]",
-      "[truck: 87%]",
-      "[bench: 84%]",
-      "[backpack: 81%]",
-      "[umbrella: 78%]"
+    const stats = [
+        { target: 15, label: "Projects Mastered", suffix: "+" },
+        { target: 10, label: "Certifications", suffix: "+" },
+        { target: 3, label: "Internships Executed", suffix: "" },
+        { target: 25, label: "Weapon Tools", suffix: "+" }
     ];
 
+    const notations = [
+        "[person: 96%]",
+        "[car: 93%]",
+        "[traffic_light: 90%]",
+        "[truck: 87%]",
+        "[bench: 84%]",
+        "[backpack: 81%]",
+        "[umbrella: 78%]"
+    ];
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let animationFrameId;
+
+        // Resize handler
+        const resizeCanvas = () => {
+            const parent = canvas.parentElement || document.body;
+            canvas.width = parent.clientWidth;
+            canvas.height = parent.clientHeight;
+        };
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Neural Particles array
+        const particlesCount = 40;
+        const particles = [];
+        for (let i = 0; i < particlesCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.35,
+                vy: (Math.random() - 0.5) * 0.35,
+                radius: Math.random() * 1.5 + 1
+            });
+        }
+
+        // Animation loop
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw and update particles
+            particles.forEach((p, idx) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                
+                // Bounce off bounds
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                
+                // Draw particle node
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(204, 164, 59, 0.18)'; // transparent gold
+                ctx.fill();
+                
+                // Connection lines
+                for (let j = idx + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if (dist < 110) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        const alpha = (1 - dist / 110) * 0.08;
+                        ctx.strokeStyle = `rgba(204, 164, 59, ${alpha})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            });
+            
+            animationFrameId = requestAnimationFrame(animate);
+        };
+        animate();
+
+        // GSAP ScrollTrigger context
+        let gsapCtx = gsap.context(() => {
+            // Animate Telemetry counter card entries
+            const statCards = gsap.utils.toArray(".telemetry-stat-card");
+            gsap.fromTo(statCards,
+                { opacity: 0, y: 30, scale: 0.95 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.8,
+                    stagger: 0.1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: ".telemetry-stats-row",
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+
+            // Animate the text digits
+            const counters = gsap.utils.toArray(".telemetry-stat-card .stat-number");
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute("data-target"), 10);
+                gsap.fromTo(counter, 
+                    { textContent: 0 },
+                    { 
+                        textContent: target,
+                        duration: 2,
+                        ease: "power2.out",
+                        snap: { textContent: 1 },
+                        scrollTrigger: {
+                            trigger: counter,
+                            start: "top 90%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+
+            // Stagger reveal of tech category cards with 3D Y-axis entrance
+            const cards = gsap.utils.toArray(".arsenal-category-card");
+            gsap.fromTo(cards,
+                {
+                    opacity: 0,
+                    y: 50,
+                    rotateX: 10,
+                    scale: 0.97
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    rotateX: 0,
+                    scale: 1,
+                    duration: 1.1,
+                    stagger: 0.08,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: ".arsenal-grid-modern",
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+
+            // Parallax translation for background chess pieces
+            gsap.to(".stack-knight", {
+                y: -90,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#arsenal",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+            gsap.to(".stack-rook", {
+                y: 70,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#arsenal",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+            gsap.to(".stack-bishop", {
+                y: -50,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#arsenal",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+        }, sectionRef);
+
+        return () => {
+            window.removeEventListener('resize', resizeCanvas);
+            cancelAnimationFrame(animationFrameId);
+            gsapCtx.revert();
+        };
+    }, []);
+
     return (
-        <section id="arsenal" className="section tech-stack-section">
+        <section id="arsenal" ref={sectionRef} className="section tech-stack-section">
+            {/* Fullscreen Neural Network Canvas Background */}
+            <canvas ref={canvasRef} className="neural-net-canvas" />
+
+            {/* Faded Background Parallax Chess Pieces */}
+            {ChessSVGs.knight}
+            {ChessSVGs.rook}
+            {ChessSVGs.bishop}
+
             {/* Looping Tech Stack Ticker (Full Width) */}
-            <div style={{ marginBottom: '80px', paddingTop: '20px', width: '100%', overflow: 'hidden' }}>
+            <div style={{ marginBottom: '60px', paddingTop: '20px', width: '100%', overflow: 'hidden', zIndex: 5, position: 'relative' }}>
                 <LogoLoop
                     logos={allLogos}
                     speed={50}
@@ -381,7 +606,7 @@ const Arsenal = () => {
 
                         <h2 className="tech-section-title" style={{ minHeight: '80px', display: 'block' }}>
                             <TextType 
-                                text={["MY| TECH STACK", "AI| FRAMEWORKS & LOGIC", "DATA SCIENCE| TOOLKITS"]} 
+                                text={["MY| TECH ARSENAL", "AI| FRAMEWORKS & LOGIC", "DATA SCIENCE| TOOLKITS"]} 
                                 as="span"
                                 typingSpeed={60}
                                 deletingSpeed={35}
@@ -401,9 +626,20 @@ const Arsenal = () => {
                             <span className="pawn-icon">♟</span>
                             <span className="decor-line"></span>
                         </div>
-
-
                     </div>
+                </div>
+
+                {/* Telemetry Stats Rows */}
+                <div className="telemetry-stats-row">
+                    {stats.map((stat, idx) => (
+                        <div key={idx} className="telemetry-stat-card">
+                            <div className="stat-number-wrapper">
+                                <span className="stat-number" data-target={stat.target}>0</span>
+                                <span className="stat-suffix">{stat.suffix}</span>
+                            </div>
+                            <span className="stat-label">{stat.label}</span>
+                        </div>
+                    ))}
                 </div>
 
                 {/* Interactive Categories Grid */}
