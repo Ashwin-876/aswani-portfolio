@@ -1,5 +1,6 @@
 import React from 'react';
 import { Shield, Target } from 'lucide-react';
+import TextType from './TextType';
 import './Experience.css';
 
 const Experience = () => {
@@ -40,7 +41,19 @@ const Experience = () => {
                     <span className="badge-move">ENDGAME</span>
                     <span className="badge-code">CAREER TIMELINE</span>
                 </div>
-                <h2 className="section-title">THE <span>ENDGAME</span></h2>
+                <h2 className="section-title" style={{ minHeight: '80px', display: 'block' }}>
+                    <TextType 
+                        text={["THE| ENDGAME", "CAREER| TACTICS", "TIMELINE| JOURNEY"]} 
+                        as="span"
+                        typingSpeed={60}
+                        deletingSpeed={35}
+                        pauseDuration={2500}
+                        loop={true}
+                        showCursor={true}
+                        cursorCharacter="|"
+                        textColors={["#f3f4f6", "var(--accent-gold)"]}
+                    />
+                </h2>
                 <p className="section-subtitle">Experience & career journey timeline</p>
 
                 <div className="experience-container">

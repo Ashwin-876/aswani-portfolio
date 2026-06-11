@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Phone, Send, Github, Linkedin, Download } from 'lucide-react';
+import TextType from './TextType';
 import './Contact.css';
 
 const Contact = () => {
@@ -27,7 +28,19 @@ const Contact = () => {
                     <span className="badge-move">CHECKMATE</span>
                     <span className="badge-code">COLLABORATION</span>
                 </div>
-                <h2 className="section-title">THE <span>CHECKMATE</span></h2>
+                <h2 className="section-title" style={{ minHeight: '80px', display: 'block' }}>
+                    <TextType 
+                        text={["THE| CHECKMATE", "INITIATE| COLLABORATION", "CONNECT| MATRIX"]} 
+                        as="span"
+                        typingSpeed={60}
+                        deletingSpeed={35}
+                        pauseDuration={2500}
+                        loop={true}
+                        showCursor={true}
+                        cursorCharacter="|"
+                        textColors={["#f3f4f6", "var(--accent-gold)"]}
+                    />
+                </h2>
                 <p className="section-subtitle">Contact & collaboration initiatives</p>
 
                 <div className="contact-container gold-border">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Projects.css';
 import { FolderOpen, Code, Brain, Target, Github, Heart, X, MessageSquare, Play, HelpCircle } from 'lucide-react';
+import TextType from './TextType';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -265,7 +266,19 @@ const Projects = () => {
                             <div className="badge-trim-line"></div>
                         </div>
 
-                        <h2 className="projects-main-title">PROJECTS</h2>
+                        <h2 className="projects-main-title" style={{ minHeight: '80px', display: 'block' }}>
+                            <TextType 
+                                text={["|PROJECTS", "PORTFOLIO| DEPLOYS", "AI| INITIATIVES"]} 
+                                as="span"
+                                typingSpeed={60}
+                                deletingSpeed={35}
+                                pauseDuration={2500}
+                                loop={true}
+                                showCursor={true}
+                                cursorCharacter="|"
+                                textColors={["#f3f4f6", "var(--accent-gold)"]}
+                            />
+                        </h2>
                         <p className="projects-tagline">Ideas. Strategized. Built. Deployed.</p>
                         <p className="projects-description-lead">
                             A collection of AI & Data Science projects where strategy meets technology to solve real-world problems.

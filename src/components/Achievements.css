@@ -29,43 +29,45 @@
 .achievements-badge-row {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 1.5rem;
     width: 100%;
-    max-width: 320px;
-    margin-bottom: 0.15rem !important;
+    max-width: 800px;
+    margin-bottom: 0.8rem !important;
 }
 
 .achieve-badge-line {
     flex-grow: 1;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    background: rgba(204, 164, 59, 0.35);
 }
 
 .achieve-badge-inner {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-}
-
-.achieve-badge-icon {
-    font-size: 0.8rem;
+    gap: 0.6rem;
 }
 
 .achieve-badge-text {
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
+    font-size: 0.85rem;
+    letter-spacing: 0.45em;
     font-weight: 700;
     color: var(--accent-gold);
+    font-family: var(--font-heading);
 }
 
 .achievements-main-title {
-    font-size: 1.8rem !important;
-    margin: 0.1rem 0 !important;
+    font-size: 2.6rem !important;
+    margin: 0.4rem 0 !important;
     font-weight: 900;
     letter-spacing: 0.05em;
-    background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-family: var(--font-heading) !important;
+}
+
+.achievements-main-title span {
+    color: inherit;
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
 }
 
 .achievements-subtitle-lead {
@@ -357,7 +359,7 @@
     }
 
     .achievements-main-title {
-        font-size: 1.6rem !important;
+        font-size: 1.8rem !important;
     }
 
     .achievements-counters-grid {

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Chess } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
 import { RotateCcw, Cpu, TrendingUp } from 'lucide-react';
+import TextType from './TextType';
 import './AIEngine.css';
 
 const AIEngine = () => {
@@ -181,7 +182,19 @@ const AIEngine = () => {
                     <span className="badge-move">CHAPTER VI</span>
                     <span className="badge-code">AI ENGINE</span>
                 </div>
-                <h2 className="section-title">THE <span>AI ENGINE</span></h2>
+                <h2 className="section-title" style={{ minHeight: '80px', display: 'block' }}>
+                    <TextType 
+                        text={["THE| AI ENGINE", "DECISION| MATRIX", "STOCKFISH| AUTOPLAY"]} 
+                        as="span"
+                        typingSpeed={60}
+                        deletingSpeed={35}
+                        pauseDuration={2500}
+                        loop={true}
+                        showCursor={true}
+                        cursorCharacter="|"
+                        textColors={["#f3f4f6", "var(--accent-gold)"]}
+                    />
+                </h2>
                 <p className="section-subtitle">Stockfish 10 WebAssembly • Autonomous AI vs AI Demonstration</p>
 
                 <div className="engine-arena gold-border">

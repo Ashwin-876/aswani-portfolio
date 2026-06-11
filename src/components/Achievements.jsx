@@ -1,6 +1,7 @@
 import React from 'react';
 import './Achievements.css';
 import { Award, Trophy, Star, Shield, Users, Code, FileText, Calendar, CheckSquare, Sparkles } from 'lucide-react';
+import TextType from './TextType';
 
 // Detailed inline SVGs and custom render badges for the 8 recognitions
 const RecognitionIcons = {
@@ -136,13 +137,25 @@ const Achievements = () => {
                     <div className="achievements-badge-row">
                         <div className="achieve-badge-line"></div>
                         <div className="achieve-badge-inner">
-                            <span className="achieve-badge-icon">🏆</span>
+                            <Trophy size={16} className="achieve-badge-trophy-icon" style={{ color: 'var(--accent-gold)' }} />
                             <span className="achieve-badge-text">ACHIEVEMENTS</span>
                         </div>
                         <div className="achieve-badge-line"></div>
                     </div>
 
-                    <h2 className="achievements-main-title">AWARDS & RECOGNITIONS</h2>
+                    <h2 className="achievements-main-title" style={{ minHeight: '80px', display: 'block' }}>
+                        <TextType 
+                            text={["|AWARDS & RECOGNITIONS", "|EXCELLENCE MILESTONES", "|HACKATHON TRIUMPHS"]} 
+                            as="span"
+                            typingSpeed={60}
+                            deletingSpeed={35}
+                            pauseDuration={2500}
+                            loop={true}
+                            showCursor={true}
+                            cursorCharacter="|"
+                            textColors={["#f3f4f6", "var(--accent-gold)"]}
+                        />
+                    </h2>
                     <p className="achievements-subtitle-lead">
                         Milestones that motivate me to keep challenging, learning, and building impact.
                     </p>
