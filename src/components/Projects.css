@@ -229,11 +229,24 @@
     flex-direction: column;
 }
 
+.stat-number-row {
+    display: flex;
+    align-items: baseline;
+    color: var(--accent-gold-light);
+}
+
 .stat-number {
     font-size: 1.1rem;
     font-weight: 800;
-    color: var(--text-main);
+    color: var(--accent-gold-light);
     line-height: 1.1;
+    text-shadow: 0 0 8px rgba(204, 164, 59, 0.15);
+}
+
+.stat-suffix {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-left: 1px;
 }
 
 .stat-label {

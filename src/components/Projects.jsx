@@ -102,6 +102,51 @@ const Projects = () => {
         // which adds staggered slide-up animations to all .project-card elements.
     }, [filter]);
 
+    useEffect(() => {
+        let gsapCtx = gsap.context(() => {
+            // Stagger reveal of stats cards
+            const statCards = gsap.utils.toArray(".projects-stats-grid .stat-card");
+            gsap.fromTo(statCards,
+                { opacity: 0, y: 25, scale: 0.96 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.7,
+                    stagger: 0.08,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: ".projects-stats-grid",
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+
+            // Animate counter digits
+            const counters = gsap.utils.toArray(".projects-stats-grid .stat-number");
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute("data-target"), 10);
+                gsap.fromTo(counter, 
+                    { textContent: 0 },
+                    { 
+                        textContent: target,
+                        duration: 1.8,
+                        ease: "power2.out",
+                        snap: { textContent: 1 },
+                        scrollTrigger: {
+                            trigger: counter,
+                            start: "top 90%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+        }, sectionRef);
+
+        return () => gsapCtx.revert();
+    }, []);
+
     const categories = [
         'All Projects',
         'AI / ML',
@@ -112,10 +157,10 @@ const Projects = () => {
     ];
 
     const stats = [
-        { count: "15+", label: "Projects", icon: <FolderOpen size={20} className="stat-icon" /> },
-        { count: "6+", label: "Technologies", icon: <Code size={20} className="stat-icon" /> },
-        { count: "10+", label: "ML Models", icon: <Brain size={20} className="stat-icon" /> },
-        { count: "100%", label: "Dedication", icon: <Target size={20} className="stat-icon" /> }
+        { target: 15, label: "Projects", icon: <FolderOpen size={20} className="stat-icon" />, suffix: "+" },
+        { target: 6, label: "Technologies", icon: <Code size={20} className="stat-icon" />, suffix: "+" },
+        { target: 10, label: "ML Models", icon: <Brain size={20} className="stat-icon" />, suffix: "+" },
+        { target: 100, label: "Dedication", icon: <Target size={20} className="stat-icon" />, suffix: "%" }
     ];
 
     const projectData = [
@@ -292,7 +337,10 @@ const Projects = () => {
                                         {stat.icon}
                                     </div>
                                     <div className="stat-info">
-                                        <span className="stat-number">{stat.count}</span>
+                                        <div className="stat-number-row">
+                                            <span className="stat-number" data-target={stat.target}>0</span>
+                                            <span className="stat-suffix">{stat.suffix}</span>
+                                        </div>
                                         <span className="stat-label font-mono">{stat.label}</span>
                                     </div>
                                 </div>
