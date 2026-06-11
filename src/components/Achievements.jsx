@@ -1,7 +1,33 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './Achievements.css';
-import { Award, Trophy, Star, Shield, Users, Code, FileText, Calendar, CheckSquare, Sparkles } from 'lucide-react';
+import { Award, Trophy, Star, Shield, Calendar } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import TextType from './TextType';
+
+gsap.registerPlugin(ScrollTrigger);
+
+// Custom chess piece vectors for background depth
+const ChessSVGs = {
+    queen: (
+        <svg viewBox="0 0 512 512" width="100%" height="100%" className="parallax-chess-piece-hall hall-queen" aria-hidden="true">
+            <path 
+                fill="currentColor" 
+                d="M496 288c-8.8 0-16-7.2-16-16v-32c0-8.8 7.2-16 16-16s16 7.2 16 16v32c0 8.8-7.2 16-16 16zm-480 0c-8.8 0-16-7.2-16-16v-32c0-8.8 7.2-16 16-16s16 7.2 16 16v32c0 8.8-7.2 16-16 16z"
+                opacity="0.015"
+            />
+        </svg>
+    ),
+    knight: (
+        <svg viewBox="0 0 448 512" width="100%" height="100%" className="parallax-chess-piece-hall hall-knight" aria-hidden="true">
+            <path 
+                fill="currentColor" 
+                d="M96 48L82.7 61.3C70.7 73.3 64 89.5 64 106.5l0 132.4c0 10.7 5.3 20.7 14.2 26.6l10.6 7c14.3 9.6 32.7 10.7 48.1 3l3.2-1.6c2.6-1.3 5-2.8 7.3-4.5l49.4-37c6.6-5 15.7-5 22.3 0c10.2 7.7 9.9 23.1-.7 30.3L90.4 350C73.9 361.3 64 380 64 400l320 0c0-20 9.9-38.7 26.4-50L250.7 232.8c-10.6-7.2-10.9-22.6-.7-30.3c6.6-5 15.7-5 22.3 0l49.4 37c2.3 1.7 4.7 3.2 7.3 4.5l3.2 1.6c15.4 7.7 33.8 6.6 48.1-3l10.6-7c8.9-5.9 14.2-15.9 14.2-26.6V106.5c0-17-6.7-33.2-18.7-45.2L352 48l-256 0z"
+                opacity="0.015"
+            />
+        </svg>
+    )
+};
 
 // Detailed inline SVGs and custom render badges for the 8 recognitions
 const RecognitionIcons = {
@@ -52,11 +78,14 @@ const RecognitionIcons = {
 };
 
 const Achievements = () => {
+    const canvasRef = useRef(null);
+    const sectionRef = useRef(null);
+
     const stats = [
-        { count: "15+", label: "Awards Earned", icon: <Award size={20} className="award-stat-icon" /> },
-        { count: "10+", label: "Competitions Won", icon: <Trophy size={20} className="award-stat-icon" /> },
-        { count: "5+", label: "Hackathons", icon: <Star size={20} className="award-stat-icon" /> },
-        { count: "100%", label: "Dedication", icon: <Shield size={20} className="award-stat-icon" /> }
+        { target: 15, label: "Awards Earned", icon: <Award size={20} className="award-stat-icon" />, suffix: "+" },
+        { target: 10, label: "Competitions Won", icon: <Trophy size={20} className="award-stat-icon" />, suffix: "+" },
+        { target: 5, label: "Hackathons", icon: <Star size={20} className="award-stat-icon" />, suffix: "+" },
+        { target: 100, label: "Dedication", icon: <Shield size={20} className="award-stat-icon" />, suffix: "%" }
     ];
 
     const recognitions = [
@@ -126,10 +155,170 @@ const Achievements = () => {
         }
     ];
 
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let animationFrameId;
+
+        // Resize handler
+        const resizeCanvas = () => {
+            const parent = canvas.parentElement || document.body;
+            canvas.width = parent.clientWidth;
+            canvas.height = parent.clientHeight;
+        };
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Dust/embers array
+        const particleCount = 45;
+        const particles = [];
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vy: -(Math.random() * 0.35 + 0.1), // floating upwards
+                vx: (Math.random() - 0.5) * 0.15,
+                radius: Math.random() * 1.5 + 0.6,
+                alpha: Math.random() * 0.35 + 0.1
+            });
+        }
+
+        // Animation loop
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(p => {
+                p.y += p.vy;
+                p.x += p.vx;
+                
+                // Recycle if they drift off bounds
+                if (p.y < 0) {
+                    p.y = canvas.height;
+                    p.x = Math.random() * canvas.width;
+                }
+                if (p.x < 0 || p.x > canvas.width) {
+                    p.vx *= -1;
+                }
+                
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(204, 164, 59, ${p.alpha})`;
+                ctx.fill();
+            });
+            
+            animationFrameId = requestAnimationFrame(animate);
+        };
+        animate();
+
+        // GSAP ScrollTrigger Context
+        let gsapCtx = gsap.context(() => {
+            // Animate counters row cards
+            const statCards = gsap.utils.toArray(".achieve-stat-card");
+            gsap.fromTo(statCards,
+                { opacity: 0, y: 25, scale: 0.96 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.7,
+                    stagger: 0.08,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: ".achievements-counters-grid",
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+
+            // Animate digits counting up
+            const counters = gsap.utils.toArray(".achieve-stat-card .achieve-stat-number");
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute("data-target"), 10);
+                gsap.fromTo(counter, 
+                    { textContent: 0 },
+                    { 
+                        textContent: target,
+                        duration: 1.8,
+                        ease: "power2.out",
+                        snap: { textContent: 1 },
+                        scrollTrigger: {
+                            trigger: counter,
+                            start: "top 90%",
+                            toggleActions: "play none none none"
+                        }
+                    }
+                );
+            });
+
+            // Stagger reveal of cards with 3D entry rotation
+            const cards = gsap.utils.toArray(".recognition-card");
+            gsap.fromTo(cards,
+                {
+                    opacity: 0,
+                    y: 40,
+                    scale: 0.95,
+                    rotateY: 10
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    rotateY: 0,
+                    duration: 1.1,
+                    stagger: 0.08,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: ".recognitions-grid-modern",
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    }
+                }
+            );
+
+            // Parallax scroll for background chess vectors
+            gsap.to(".hall-queen", {
+                y: -50,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#achievements",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+            gsap.to(".hall-knight", {
+                y: 65,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#achievements",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+        }, sectionRef);
+
+        return () => {
+            window.removeEventListener('resize', resizeCanvas);
+            cancelAnimationFrame(animationFrameId);
+            gsapCtx.revert();
+        };
+    }, []);
+
     return (
-        <section id="achievements" className="section achievements-section-modern">
+        <section id="achievements" ref={sectionRef} className="section achievements-section-modern">
+            {/* HTML5 Dust/Ember particles rising background */}
+            <canvas ref={canvasRef} className="hall-particles-canvas" />
+
+            {/* Faint Chess Pieces Background Parallax */}
+            {ChessSVGs.queen}
+            {ChessSVGs.knight}
+
             <div className="container">
-                {/* Chess background elements */}
+                {/* Chess board overlay grid lines for aesthetic background depth */}
                 <div className="chessboard-grid-depth"></div>
 
                 {/* Section Header Centered */}
@@ -145,7 +334,7 @@ const Achievements = () => {
 
                     <h2 className="achievements-main-title" style={{ minHeight: '80px', display: 'block' }}>
                         <TextType 
-                            text={["|AWARDS & RECOGNITIONS", "|EXCELLENCE MILESTONES", "|HACKATHON TRIUMPHS"]} 
+                            text={["AWARDS| & RECOGNITIONS", "EXCELLENCE| MILESTONES", "HACKATHON| TRIUMPHS"]} 
                             as="span"
                             typingSpeed={60}
                             deletingSpeed={35}
@@ -174,7 +363,10 @@ const Achievements = () => {
                                     {stat.icon}
                                 </div>
                                 <div className="achieve-stat-text">
-                                    <span className="achieve-stat-number">{stat.count}</span>
+                                    <div className="achieve-number-row">
+                                        <span className="achieve-stat-number" data-target={stat.target}>0</span>
+                                        <span className="achieve-stat-suffix">{stat.suffix}</span>
+                                    </div>
                                     <span className="achieve-stat-label font-mono">{stat.label}</span>
                                 </div>
                             </div>
@@ -218,7 +410,7 @@ const Achievements = () => {
                     ))}
                 </div>
 
-                {/* Quote testmonial card at the bottom */}
+                {/* Quote testimonial card at the bottom */}
                 <div className="achievements-quote-footer gold-border">
                     <span className="achieve-quote-symbol">“</span>
                     <p className="achieve-quote-paragraph">
